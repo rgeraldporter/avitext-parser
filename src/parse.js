@@ -26,32 +26,37 @@ class Count {
 
         return ( this.__value === null || this.__value === undefined );
     }
+
+    join() {
+
+        return this.isNothing() ? Count.of(null) : this.__value;
+    }
 }
 
 Count.of = x => new Count( x );
 
 function countNumbers( str ) {
 
-    return str.replace( /\D/g, '' ) || 0;
+    return Number(str.replace( /\D/g, '' ) || 0);
 }
 
 // males
 
 function countMales( str ) {
 
-    return countMs( str ) === 1 ? parseInt(countNumbers( str )) || 1 : countMs( str );
+    return countMs( str ) === 1 ? countNumbers( str ) || 1 : countMs( str );
 }
 
 function countMs( str ) {
 
-    return parseInt(( str.match( /m/g ) || [] ).length);
+    return Number(( str.match( /m/g ) || [] ).length);
 }
 
 function countAllMales( val ) {
 
     return val.reduce( ( prev, current ) => {
 
-        return parseInt(prev) + countMales(current);
+        return Number(prev) + countMales(current);
     }, 0);
 }
 
@@ -59,19 +64,19 @@ function countAllMales( val ) {
 
 function countFs( str ) {
 
-    return parseInt(( str.match( /f/g ) || [] ).length);
+    return Number(( str.match( /f/g ) || [] ).length);
 }
 
 function countFemales( str ) {
 
-    return countFs( str ) === 1 ? parseInt(countNumbers( str )) || 1 : countFs( str );
+    return countFs( str ) === 1 ? countNumbers( str ) || 1 : countFs( str );
 }
 
 function countAllFemales( val ) {
 
     return val.reduce( ( prev, current ) => {
 
-        return parseInt(prev) + countFemales(current);
+        return Number(prev) + countFemales(current);
     }, 0);
 }
 
@@ -79,19 +84,19 @@ function countAllFemales( val ) {
 
 function countJs( str ) {
 
-    return parseInt(( str.match( /j/g ) || [] ).length);
+    return Number(( str.match( /j/g ) || [] ).length);
 }
 
 function countJuveniles( str ) {
 
-    return countJs( str ) === 1 ? parseInt(countNumbers( str )) || 1 : 0;
+    return countJs( str ) === 1 ? countNumbers( str ) || 1 : 0;
 }
 
 function countAllJuveniles( val ) {
 
     return val.reduce( ( prev, current ) => {
 
-        return parseInt(prev) + countJuveniles(current);
+        return Number(prev) + countJuveniles(current);
     }, 0);
 }
 
@@ -99,19 +104,19 @@ function countAllJuveniles( val ) {
 
 function countIs( str ) {
 
-    return parseInt(( str.match( /i/g ) || [] ).length);
+    return Number(( str.match( /i/g ) || [] ).length);
 }
 
 function countImmatures( str ) {
 
-    return countIs( str ) === 1 ? parseInt(countNumbers( str )) || 1 : 0;
+    return countIs( str ) === 1 ? countNumbers( str ) || 1 : 0;
 }
 
 function countAllImmatures( val ) {
 
     return val.reduce( ( prev, current ) => {
 
-        return parseInt(prev) + countImmatures(current);
+        return Number(prev) + countImmatures(current);
     }, 0);
 }
 
@@ -119,22 +124,34 @@ function countAllImmatures( val ) {
 
 function countAs( str ) {
 
-    return parseInt(( str.match( /a/g ) || [] ).length);
+    return Number(( str.match( /a/g ) || [] ).length);
 }
 
 function countAdults( str ) {
 
-    return countAs( str ) === 1 ? parseInt(countNumbers( str )) || 1 : 0;
+    return countAs( str ) === 1 ? countNumbers( str ) || 1 : 0;
 }
 
 function countAllAdults( val ) {
 
     return val.reduce( ( prev, current ) => {
 
-        return parseInt(prev) + countAdults(current);
+        return Number(prev) + countAdults(current);
     }, 0);
 }
 
+
+// if there are less than 3 non-numeric characters not m,f,a,i,j then it's a comment.
+
+function countNonNumeric( str ) {
+
+    return Number((str.match( /\D/g ) || []).length);
+}
+
+function countValidCharacters( str ) {
+
+    return Number((str.match( /a|i|j|f|m/g ) || []).length);
+}
 
 // unspecifieds
 
@@ -142,7 +159,7 @@ function countUnspecified( val ) {
 
     return val.reduce( ( prev, current ) => {
 
-        return parseInt(prev) + ( /[^$,\.\d]/.test(current) ? 0 : parseInt(countNumbers( current )) );
+        return Number(prev) + ( /[^$,\.\d]/.test(current) ? 0 : countNumbers( current ) );
     }, 0);
 }
 
@@ -152,26 +169,24 @@ function countCombo( val ) {
 
     return val.reduce( ( prev, current ) => {
 
-        let count = 0;
-
         // adult male/females
         if ( countAs(current) === 1 && (countFs(current) === 1 || countMs(current) === 1) ) {
 
-            prev.adults.males = countNumbers( current );
+            countMs(current) ? prev.male.adult += countNumbers( current ) : null;
+            countFs(current) ? prev.female.adult += countNumbers( current ) : null;
         }
         else if ( countIs(current) === 1 && (countFs(current) === 1 || countMs(current) === 1) ) {
 
-            prev.immatures.females = countNumbers( current );
+            countFs(current) ? prev.female.immature += countNumbers( current ) : null;
+            countMs(current) ? prev.male.immature += countNumbers( current ) : null;
         }
 
         return prev;
     }, {
-        adults: { males: 0, females: 0 },
-        immatures: { males: 0, females: 0 }
+        female: { immature: 0, adult: 0 },
+        male: { immature: 0, adult: 0 }
     });
 }
-
-
 
 
 function explodeString( str ) {
@@ -179,9 +194,18 @@ function explodeString( str ) {
     return str ? str.split( ' ' ) : null;
 }
 
+function discardInvalid( arr ) {
+
+    return (arr||[]).filter( str => {
+
+        return countValidCharacters(str) === countNonNumeric(str) ? 
+            true : false;
+    });
+}
+
 function extractQuotes( str ) {
 
-    return str.match( /(['"])((\\\1|.)*?)\1/gm );
+    return str.match( /(['"])((\\\1|.)*?)\1/gm ) || [];
 }
 
 function removeQuotes( str ) {
@@ -209,27 +233,51 @@ function getSpecies( str ) {
     return str.substring(0, 4);
 }
 
-let _breakOutSpecies = fjs.compose( explodeString, removeQuotes, removeTaxon );
+let _breakOutSpecies = fjs.compose( discardInvalid, explodeString, removeQuotes, removeTaxon );
 let breakOutSpecies = memoize( _breakOutSpecies );
+
+function _calcPhenotypes( str ) {
+
+    return Count.of( breakOutSpecies(str) ).map( countCombo );
+}
+
+let calcPhenotypes = memoize( _calcPhenotypes );
+
+function getPhenotype( str ) {
+
+    return arr => {
+
+        return calcPhenotypes( str ).map( val => val[ arr[0] ][ arr[1] ]);
+    }
+}
 
 function gatherCount( str ) {
 
     return {
-        taxon: Count.of( getSpecies(str) ),
-        males: Count.of( breakOutSpecies(str) ).map( countAllMales ),
-        females: Count.of( breakOutSpecies(str) ).map( countAllFemales ),
-        unspecified: Count.of( breakOutSpecies(str) ).map( countUnspecified ),
-        juveniles: Count.of( breakOutSpecies(str) ).map( countAllJuveniles ),
-        immatures: Count.of( breakOutSpecies(str) ).map( countAllImmatures ),
-        adults: Count.of( breakOutSpecies(str) ).map( countAllAdults )
-    }
+        identifier: Count.of( getSpecies(str) ),
+        phenotype: {
+            male: {
+                unspecified: Count.of( breakOutSpecies(str) ).map( countAllMales ),
+                immature: getPhenotype(str)(['male', 'immature']),
+                adult: getPhenotype(str)(['male', 'adult'])
+            },
+            female: {
+                unspecified: Count.of( breakOutSpecies(str) ).map( countAllFemales ),
+                immature: getPhenotype(str)(['female', 'immature']),
+                adult: getPhenotype(str)(['female', 'adult'])
+            },
+            juvenile: Count.of( breakOutSpecies(str) ).map( countAllJuveniles ),
+            immature: Count.of( breakOutSpecies(str) ).map( countAllImmatures ),
+            adult: Count.of( breakOutSpecies(str) ).map( countAllAdults ),
+            unspecified: Count.of( breakOutSpecies(str) ).map( countUnspecified )
+        },
+        check: false,
+        comment: gatherComments( str )
+    };
 }
 
 export {
 
-    gatherComments,
-    removeQuotes,
     Count,
-    gatherCount,
-    explodeString
+    gatherCount
 };

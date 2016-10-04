@@ -6,68 +6,72 @@ describe('the parser', () => {
 
     it('should be able to gather comments from a species line', () => {
 
-        let comments = controller.gatherComments( line );
+        let count = controller.gatherCount( line );
 
-        expect( comments[0] ).toBe( 'flyover' );
-        expect( comments[1] ).toBe( '2nd year immature' );
-    });
-
-    it('should be able to remove comments from a species line', () => {
-
-        let comments = controller.removeQuotes( line );
-
-        expect( comments.indexOf( 'fly' ) ).toBe( -1 );
+        expect( count.comment[0] ).toBe( 'flyover' );
+        expect( count.comment[1] ).toBe( '2nd year immature' );
     });
 
     it('should calculate male, female, and unspecified sex of recorded species', () => {
 
         let count = controller.gatherCount( 'MALL 1 6 2m 3m mmm f m 3 4f fmfm' );
 
-        expect( count.males.__value ).toBe( 11 );
-        expect( count.females.__value ).toBe( 7 );
-        expect( count.unspecified.__value ).toBe( 10 );
-        expect( count.taxon.__value ).toBe( 'MALL' );
+        expect( count.phenotype.male.unspecified.__value ).toBe( 11 );
+        expect( count.phenotype.female.unspecified.__value ).toBe( 7 );
+        expect( count.phenotype.unspecified.__value ).toBe( 10 );
+        expect( count.identifier.__value ).toBe( 'MALL' );
     });
 
     it('should correctly calculate juveniles, immatures, and adults', () => {
 
         let count = controller.gatherCount( 'YHVI m f 3j 2a 4i "three in nest, two out of nest"' );
 
-        expect( count.males.__value ).toBe( 1 );
-        expect( count.females.__value ).toBe( 1 );
-        expect( count.unspecified.__value ).toBe( 0 );
-        expect( count.taxon.__value ).toBe( 'YHVI' );
-        expect( count.juveniles.__value ).toBe( 3 );
-        expect( count.adults.__value ).toBe( 2 );
-        expect( count.immatures.__value ).toBe( 4 );
+        expect( count.phenotype.male.unspecified.__value ).toBe( 1 );
+        expect( count.phenotype.female.unspecified.__value ).toBe( 1 );
+        expect( count.phenotype.unspecified.__value ).toBe( 0 );
+        expect( count.identifier.__value ).toBe( 'YHVI' );
+        expect( count.phenotype.juvenile.__value ).toBe( 3 );
+        expect( count.phenotype.adult.__value ).toBe( 2 );
+        expect( count.phenotype.immature.__value ).toBe( 4 );
     });
 
     it('should handle a null line', () => {
 
-        let line = controller.explodeString(null),
-            empty = controller.Count.of( line ).map( controller.countAllMales )
-        ;
+        let count = controller.gatherCount('');
 
-        expect( empty.__value ).toBe( null );
+        expect( count.phenotype.male.unspecified.__value ).toBe( 0 );
     });
 
     it('should handle an empty line', () => {
 
-        let line = controller.explodeString(''),
-            empty = controller.Count.of( line ).map( controller.countAllMales )
-        ;
+        let count = controller.gatherCount('MALL');
 
-        expect( empty.__value ).toBe( null );
+        expect( count.phenotype.male.unspecified.__value ).toBe( 0 );
+        expect( count.identifier.__value ).toBe( 'MALL' );
     });
 
     it('should handle a zero count', () => {
 
         let count = controller.gatherCount( 'MALL' );
 
-        // we're going to get nulls rather than zeros. 
-        expect( count.males.__value ).toBe( null );
-        expect( count.females.__value ).toBe( null );
-        expect( count.unspecified.__value ).toBe( null );
-        expect( count.taxon.__value ).toBe( 'MALL' );
+        expect( count.phenotype.male.unspecified.__value ).toBe( 0 );
+        expect( count.phenotype.female.unspecified.__value ).toBe( 0 );
+        expect( count.phenotype.unspecified.__value ).toBe( 0 );
+        expect( count.identifier.__value ).toBe( 'MALL' );
+    });
+
+    it('should handle combo counts', () => {
+
+        let count = controller.gatherCount( 'HOME 2am 3f 2m 3fa' );
+
+        expect( count.phenotype.male.adult ).toEqual( controller.Count.of(2) );
+        expect( count.phenotype.female.adult ).toEqual( controller.Count.of(3) );
+    });
+
+    it('should not parse invalid declarations', () => {
+
+        let count = controller.gatherCount( 'BAEA 2ar 3i 4a' );
+
+        expect( count.phenotype.adult.map( val => val ) ).toEqual( controller.Count.of(4) );
     });
 })
