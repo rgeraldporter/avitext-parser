@@ -1,18 +1,18 @@
 class Count {
 
-    constructor( x ) {
+    constructor(x) {
 
         this.__value = x;
     }
 
-    map( f ) {
+    map(f) {
 
         return this.isNothing() ? Count.of(null) : Count.of(f(this.__value));
     }
 
     isNothing() {
 
-        return ( this.__value === null || this.__value === undefined );
+        return (this.__value === null || this.__value === undefined);
     }
 
     join() {
@@ -21,6 +21,6 @@ class Count {
     }
 }
 
-Count.of = x => new Count( x );
+Count.of = x => new Count(x);
 
-export { Count as default };
+export {Count as default};
