@@ -1,5 +1,4 @@
 import fjs from '../lib/functional.js';
-import Count from '../lib/Count';
 import Maybe from '../lib/Maybe';
 
 const memoize = fn => {
@@ -28,15 +27,12 @@ function appendYear(str) {
     return str + '-' + (new Date()).getFullYear();
 }
 
-//      if( this.metadata.distance.search(/km/i) != -1 || this.metadata.distance.search(/k/i) != -1 )
-//            this.metadata.distance = parseFloat( this.metadata.distance.slice(0, -2) * 0.6214 ).toFixed(2);
-
 function parseDistance(str) {
 
     if (str.search(/km|k/i) !== -1)
         return (parseInt(str.slice(0, -2)) * 0.6214).toFixed(2);
 
-    return str;
+    return str && str !== '' ? str : null;
 }
 
 const parseDate = fjs.compose(convertToSlash, appendYear);
@@ -55,7 +51,23 @@ function parseEffortLine(str) {
         date: Maybe.of(parseDate(explodeString(str)[0])),
         time: Maybe.of(explodeString(str)[1]),
         duration: Maybe.of(explodeString(str)[2] || null),
-        distance: Maybe.of(parseDistance(explodeString(str)[3] || ''))
+        distance: Maybe.of(parseDistance(explodeString(str)[3] || '')),
+        observers: Maybe.of(1),
+        comments: Maybe.of(''),
+        get protocol() {
+
+            if (this.duration.isNothing())
+                return Maybe.of('Casual');
+
+            if (this.distance.isNothing())
+                return Maybe.of('Stationary');
+
+            return Maybe.of('Traveling');
+        },
+        get complete() {
+
+            return Maybe.of(this.protocol.join() !== 'Casual');
+        }
     };
 }
 

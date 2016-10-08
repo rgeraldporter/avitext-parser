@@ -122,8 +122,10 @@ function countChecks(val) {
 
     return val.reduce((prev, current) => {
 
-        countXs(current) === 1 ? prev = true : null;
-        return prev;
+        let check = prev;
+
+        countXs(current) === 1 ? check = true : null;
+        return check;
     }, false);
 }
 
@@ -135,7 +137,7 @@ function countNonNumeric(str) {
 
 function countValidCharacters(str) {
 
-    return Number((str.match(/a|i|j|f|m|x/g) || []).length);
+    return Number((str.match(/a|i|j|f|m|x/g) || []).length);
 }
 
 // unspecifieds
@@ -171,11 +173,17 @@ function countCombo(val) {
     });
 }
 
+function implodeString(arr) {
 
-function explodeString(str) {
+    return arr.length ? arr.join(' ') : [];
+}
+
+function _explodeString(str) {
 
     return str ? str.split(' ') : [];
 }
+
+const explodeString = memoize(_explodeString);
 
 function discardInvalid(arr) {
 
@@ -213,10 +221,10 @@ function gatherComments(str) {
 
 function gatherInvalid(arr) {
 
-    return (arr.slice(1)||[]).reduce((prev, current, index) => {
+    return (arr.slice(1)||[]).reduce((prev, current) => {
 
-        countValidCharacters(current) === countNonNumeric(current) ?
-            null : prev.push(current);
+        if (countValidCharacters(current) !== countNonNumeric(current))
+            prev.push(current);
 
         return prev;
     }, []);
@@ -247,7 +255,7 @@ function getSpecies(str) {
     return getCustomTaxon(str).length ? trimString(getCustomTaxon(str)[0]) : getBand4Code(str);
 }
 
-const breakOutInvalid = fjs.compose(gatherInvalid, explodeString, removeQuotes, removeTaxon);
+const breakOutInvalid = fjs.compose(implodeString, gatherInvalid, explodeString, removeQuotes, removeTaxon);
 const _breakOutSpecies = fjs.compose(discardInvalid, explodeString, removeQuotes, removeTaxon);
 const breakOutSpecies = memoize(_breakOutSpecies);
 

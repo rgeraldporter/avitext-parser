@@ -57,5 +57,33 @@ describe('the effort line parser', () => {
         let effort = parseEffortLine('02-12-2016 17:05 15 0.6');
 
         expect(effort.distance.__value).toBe('0.6');
+        expect(effort.protocol.__value).toBe('Traveling');
+    });
+
+    it('should be able to handle having no distance', () => {
+
+        let effort = parseEffortLine('02-12-2016 17:05 15');
+
+        expect(effort.duration.__value).toBe('15');
+        expect(effort.protocol.__value).toBe('Stationary');
+    });
+
+    it('should be able to handle having no duration', () => {
+
+        let effort = parseEffortLine('02-12-2016 17:05');
+
+        expect(effort.time.__value).toBe('17:05');
+        expect(effort.duration.__value).toBe(null);
+        expect(effort.protocol.__value).toBe('Casual');
+        expect(effort.complete.__value).toBe(false);
+    });
+
+    it('should be able to handle not having a time', () => {
+
+        let effort = parseEffortLine('02-12-2016');
+
+        expect(effort.date.__value).toBe('02/12/2016');
+        expect(effort.duration.__value).toBe(null);
+        expect(effort.protocol.__value).toBe('Casual');
     });
 });

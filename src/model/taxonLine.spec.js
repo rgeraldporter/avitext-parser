@@ -75,8 +75,7 @@ describe('the taxon line parser', () => {
         const count = calculateTaxonLine('BAEA 2ar 3i 4a lots of these here');
 
         expect(count.phenotype.adult.map(val => val)).toEqual(Count.of(4));
-        expect(count.comment.__value[0]).toBe('2ar');
-        expect(count.comment.__value[1]).toBe('lots');
+        expect(count.comment.__value[0]).toBe('2ar lots of these here');
     });
 
     it('should be able to process custom taxon identifiers', () => {
