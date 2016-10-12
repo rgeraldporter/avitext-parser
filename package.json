@@ -4,13 +4,9 @@
   "version": "0.1.0",
   "author": "Robert Gerald Porter <rob@inpictures.ca>",
   "description": "Parser for Avitext files.",
-  "readmeFilename": "README.md",
   "main": "./app/index.js",
   "contributors": [
-    {
-      "name": "Robert Gerald Porter",
-      "email": "rob@inpictures.ca"
-    }
+    "Robert Gerald Porter <rob@inpictures.ca>"
   ],
   "devDependencies": {
     "babel-cli": "^6.6.5",
@@ -42,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rgeraldporter/avitext-parser.git"
+    "url": "git+https://github.com/rgeraldporter/avitext-parser.git"
   },
   "keywords": [
     "ebird",
@@ -56,5 +52,13 @@
   "scripts": {
     "build": "gulp",
     "test": "gulp test"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/rgeraldporter/avitext-parser/issues"
+  },
+  "homepage": "https://github.com/rgeraldporter/avitext-parser#readme",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {}
 }
