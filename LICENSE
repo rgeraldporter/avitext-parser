@@ -1,52 +1,3 @@
-# avitext-parser
-####v0.1.0
-
-A module for parsing [avitext](https://github.com/rgeraldporter/avitext-spec) files.
-
-This is an early version that has not been tested much. You have been warned.
-
-## Setup
-
-Using npm...
-
-```
-npm install avitext-parser
-```
-
-### Node import
-
-For modern ES6 systems, you can include via `import`
-
-```
-import Parse from 'avitext-parse';
-```
-
-or in legacy setups, using require()
-
-```
-var Parse = require('avitext-parse').default;
-```
-
-### Browser import
-
-Include the bundle of your choice, either `dist/avitext-parse.js` or `dist/avitext-parse.min.js`.
-
-## Usage
-
-Assuming you have an Avitext-valid text string, you will instantiate using:
-
-```
-let myParsedChecklist = new Parse(text);
-```
-or, in pre-ES6 environments:
-```
-var myParsedChecklist = new Parse(text);
-```
-
-This will return a checklist object. The API on this is not yet solid and will be locked down before 1.x. Properties in this object are mostly immutables, as this module is written using functional-style.
-
-##License
-
 The MIT License (MIT)
 
 Copyright (c) 2016 Robert Gerald Porter
@@ -68,5 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-

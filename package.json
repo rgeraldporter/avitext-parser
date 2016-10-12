@@ -5,7 +5,7 @@
   "author": "Robert Gerald Porter <rob@inpictures.ca>",
   "description": "Parser for Avitext files.",
   "readmeFilename": "README.md",
-  "main": "./dist/avitext-parse.js",
+  "main": "./app/index.js",
   "contributors": [
     {
       "name": "Robert Gerald Porter",
