@@ -3,14 +3,15 @@
   "preferGlobal": false,
   "version": "0.1.0",
   "author": "Robert Gerald Porter <rob@inpictures.ca>",
-  "description": "Parser for Avitext data",
+  "description": "Parser for Avitext files.",
+  "readmeFilename": "README.md",
+  "main": "./dist/avitext-parse.js",
   "contributors": [
     {
       "name": "Robert Gerald Porter",
       "email": "rob@inpictures.ca"
     }
   ],
-  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.6.5",
     "babel-core": "^6.6.5",
@@ -38,5 +39,22 @@
       "babel-runtime": "npm:babel-runtime@5.8.38",
       "core-js": "npm:core-js@1.2.6"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rgeraldporter/avitext-parser.git"
+  },
+  "keywords": [
+    "ebird",
+    "avitext",
+    "birds",
+    "bird records",
+    "avian",
+    "bird"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gulp",
+    "test": "gulp test"
   }
 }

@@ -81,14 +81,14 @@ function buildDoc( cb ) {
 
 function minify( cb ) {
 
-    gulp.src('./app/parse.js')
+    gulp.src('./app/index.js')
         .pipe( sourcemaps.init() )
         .pipe( jspm({
 
             selfExecutingBundle:    true,
             minify:                 true
         }) )
-        .pipe( rename( 'parse.min.js' ) )
+        .pipe( rename( 'avitext-parse.min.js' ) )
         .pipe( sourcemaps.write('./') )
         .pipe( gulp.dest( './dist' ) )
         .on( 'end', cb )
@@ -98,7 +98,7 @@ function minify( cb ) {
 
 function bundle( cb ) {
 
-    gulp.src('./app/parse.js')
+    gulp.src('./app/index.js')
         .pipe( sourcemaps.init() )
         .pipe( jspm({
 
@@ -106,7 +106,7 @@ function bundle( cb ) {
             minify:                 false,
             inject:                 true
         }) )
-        .pipe( rename( 'parse.js' ) )
+        .pipe( rename( 'avitext-parse.js' ) )
         .pipe( sourcemaps.write('./') )
         .pipe( gulp.dest( './dist' ) )
         .on( 'end', cb )
