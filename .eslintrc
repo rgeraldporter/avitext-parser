@@ -45,7 +45,7 @@
         "block-spacing": ["error", "always"],
         "camelcase": "error",
         "comma-spacing": "error",
-        "comma-style": ["error", "first", {"exceptions": {"ArrayExpression": true,
+        "comma-style": ["error", "last", {"exceptions": {"ArrayExpression": true,
                                                           "ObjectExpression": true}}],
         "eol-last": ["warn", "unix"],
         "indent": ["error", 4,{ "SwitchCase": 1 }],

@@ -22,7 +22,7 @@ function appendYear(str) {
         return str;
 
     if (str.length === 8)
-        return str.slice(0, -3) + '-20' + str.slice(-2); // only valid until the year 2100 #Y2.1K
+        return str.slice(0, -3) + '-20' + str.slice(-2); // only valid until the year 2100 #Y2.1KProblems
 
     return str + '-' + (new Date()).getFullYear();
 }

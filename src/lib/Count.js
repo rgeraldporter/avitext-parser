@@ -19,6 +19,11 @@ class Count {
 
         return this.isNothing() ? Count.of(null) : this.__value;
     }
+
+    toInt() {
+
+        return this.isNothing() ? 0 : parseInt(this.__value);
+    }
 }
 
 Count.of = x => new Count(x);

@@ -13,7 +13,7 @@ function processLines(arr) {
                 const location = parseLocationLine(current);
 
                 Object.assign(prev, location);
-                // for ES7
+                // for ES7 we could use:
                 //prev = {...prev, ...location};
                 break;
             }
@@ -25,6 +25,8 @@ function processLines(arr) {
                 break;
             }
             default: {
+
+                if (!current) return prev;
 
                 const taxon = calculateTaxonLine(current);
 

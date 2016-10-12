@@ -2,7 +2,7 @@ import calculateTaxonLine from './taxonLine';
 import Count from '../lib/Count';
 import Maybe from '../lib/Maybe';
 
-describe('the taxon line parser', () => {
+describe('the taxon line model', () => {
 
     const line = 'BAEA 1 "flyover" 1i "2nd year immature"';
 

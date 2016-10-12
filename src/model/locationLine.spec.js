@@ -1,7 +1,7 @@
 import parseLocationLine from './locationLine';
 import Maybe from '../lib/Maybe';
 
-describe('the location line parser', () => {
+describe('the location line model', () => {
 
     it('should grab the location, province, country', () => {
 

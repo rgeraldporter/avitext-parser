@@ -1,7 +1,7 @@
 {
   "name": "avitext-parser",
   "preferGlobal": false,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Robert Gerald Porter <rob@inpictures.ca>",
   "description": "Parser for Avitext data",
   "contributors": [

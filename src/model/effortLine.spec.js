@@ -1,7 +1,7 @@
 import parseEffortLine from './effortLine';
 import Maybe from '../lib/Maybe';
 
-describe('the effort line parser', () => {
+describe('the effort line model', () => {
 
     it('should be able to determine the date given a two digit year', () => {
 
