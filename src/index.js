@@ -61,7 +61,7 @@ class Parse {
                 'All observations reported?': 'Y',
                 'Effort Distance Miles': list.distance.__value,
                 'Effort Area Acres': '',
-                'Submission Comments': '[Parsed from AviText file. See <https://github.com/rgeraldporter/avitext-spec> for more info.]'
+                'Submission Comments': '[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]'
             };
 
             prev.push(row);

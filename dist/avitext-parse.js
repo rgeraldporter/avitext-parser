@@ -7062,7 +7062,7 @@ $__System.registerDynamic("1", ["8", "9", "a"], true, function($__require, expor
             'All observations reported?': 'Y',
             'Effort Distance Miles': list.distance.__value,
             'Effort Area Acres': '',
-            'Submission Comments': '[Parsed from AviText file. See <https://github.com/rgeraldporter/avitext-spec> for more info.]'
+            'Submission Comments': '[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]'
           };
           prev.push(row);
           return prev;

@@ -32,12 +32,12 @@ BLJA 4 16 8
 DOWO 3m 2f
 HAWO 5m f`;
 
-        let expectedCsv = `"Mallard","","",36,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See <https://github.com/rgeraldporter/avitext-spec> for more info.]"
-"Red-bellied Woodpecker","","",2,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See <https://github.com/rgeraldporter/avitext-spec> for more info.]"
-"Black-capped Chickadee","","",6,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See <https://github.com/rgeraldporter/avitext-spec> for more info.]"
-"Blue Jay","","",28,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See <https://github.com/rgeraldporter/avitext-spec> for more info.]"
-"Downy Woodpecker","","",5,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See <https://github.com/rgeraldporter/avitext-spec> for more info.]"
-"Hairy Woodpecker","","",6,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See <https://github.com/rgeraldporter/avitext-spec> for more info.]"`;
+        let expectedCsv = `"Mallard","","",36,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
+"Red-bellied Woodpecker","","",2,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
+"Black-capped Chickadee","","",6,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
+"Blue Jay","","",28,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
+"Downy Woodpecker","","",5,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
+"Hairy Woodpecker","","",6,,"Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"`;
 
         let myParsedChecklist = new Parse(text);
 
