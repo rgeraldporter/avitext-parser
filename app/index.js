@@ -57,6 +57,31 @@ var Parse = function () {
                 return val.isNothing() ? 'bird sp.' : matchBandCode(val);
             }
 
+            function assembleComments(val) {
+
+                var phenotypeComments = '';
+
+                phenotypeComments += val.phenotype.female.immature.toInt() ? val.phenotype.female.immature.toInt() + ' immature females |' : '';
+
+                phenotypeComments += val.phenotype.female.adult.toInt() ? val.phenotype.female.adult.toInt() + ' adult females |' : '';
+
+                phenotypeComments += val.phenotype.female.unspecified.toInt() ? val.phenotype.female.unspecified.toInt() + ' unspecified age females |' : '';
+
+                phenotypeComments += val.phenotype.male.immature.toInt() ? val.phenotype.male.immature.toInt() + ' immature males |' : '';
+
+                phenotypeComments += val.phenotype.male.adult.toInt() ? val.phenotype.male.adult.toInt() + ' adult males |' : '';
+
+                phenotypeComments += val.phenotype.male.unspecified.toInt() ? val.phenotype.male.unspecified.toInt() + ' unspecified age males |' : '';
+
+                phenotypeComments += val.phenotype.juvenile.toInt() ? val.phenotype.juvenile.toInt() + ' juveniles |' : '';
+
+                phenotypeComments += val.phenotype.adult.toInt() ? val.phenotype.adult.toInt() + ' unspecified sex adults |' : '';
+
+                phenotypeComments += val.comment.emit() ? '' : '\n\n' + val.comment.emit();
+
+                return phenotypeComments;
+            }
+
             return list.species.reduce(function (prev, current) {
 
                 var row = {
@@ -65,20 +90,20 @@ var Parse = function () {
                     'Genus': '',
                     'Species': '',
                     'Number': calculateTotal(current.phenotype),
-                    'Species Comments': current.comment.__value,
-                    'Location Name': list.location.__value, // technically mutable......
+                    'Species Comments': assembleComments(current),
+                    'Location Name': list.location.emit(), // technically mutable......
                     // for these mutables we should set them as consts that get obj merged instead
                     'Latitude': '',
                     'Longitude': '',
-                    'Date': list.date.__value,
-                    'Start Time': list.time.__value,
-                    'State/Province': list.province.__value || 'ON',
-                    'Country Code': list.country.__value || 'CA',
-                    'Protocol': list.protocol.__value,
+                    'Date': list.date.emit(),
+                    'Start Time': list.time.emit(),
+                    'State/Province': list.province.emit() || 'ON',
+                    'Country Code': list.country.emit() || 'CA',
+                    'Protocol': list.protocol.emit(),
                     'Number of Observers': 1,
-                    'Duration': list.duration.__value,
+                    'Duration': list.duration.emit(),
                     'All observations reported?': 'Y',
-                    'Effort Distance Miles': list.distance.__value,
+                    'Effort Distance Miles': list.distance.emit(),
                     'Effort Area Acres': '',
                     'Submission Comments': '[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]'
                 };

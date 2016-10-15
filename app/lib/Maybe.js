@@ -33,6 +33,12 @@ var Maybe = function () {
 
             return this.isNothing() ? Maybe.of(null) : this.__value;
         }
+    }, {
+        key: "emit",
+        value: function emit() {
+
+            return this.__value;
+        }
     }]);
 
     return Maybe;

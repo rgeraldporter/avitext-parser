@@ -17,6 +17,10 @@ var _Maybe = require('../lib/Maybe');
 
 var _Maybe2 = _interopRequireDefault(_Maybe);
 
+var _birdbrain = require('../lib/birdbrain');
+
+var _birdbrain2 = _interopRequireDefault(_birdbrain);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var memoize = function memoize(fn) {
@@ -295,6 +299,14 @@ function calculateTaxonLine(str) {
 
     return {
         identifier: _Maybe2.default.of(getSpecies(str)),
+        check: _Maybe2.default.of(breakOutSpecies(str)).map(countChecks),
+        comment: _Maybe2.default.of(gatherComments(str).concat(breakOutInvalid(str))),
+        get commonName() {
+            return _Maybe2.default.of(_birdbrain2.default[this.identifier.emit()] ? _birdbrain2.default[this.identifier.emit()].name : this.identifier.join());
+        },
+        get scientificName() {
+            return _Maybe2.default.of(_birdbrain2.default[this.identifier.emit()] ? _birdbrain2.default[this.identifier.emit()].scientificName : this.identifier.join());
+        },
         phenotype: {
             male: {
                 total: _Count2.default.of(breakOutSpecies(str)).map(countAllMales),
@@ -302,7 +314,7 @@ function calculateTaxonLine(str) {
                 adult: getPhenotype(str)(['male', 'adult']),
                 get unspecified() {
 
-                    return _Count2.default.of(this.total.join() - this.immature.join() - this.adult.join());
+                    return _Count2.default.of(this.total.toInt() - this.immature.toInt() - this.adult.toInt());
                 }
             },
             female: {
@@ -311,16 +323,14 @@ function calculateTaxonLine(str) {
                 adult: getPhenotype(str)(['female', 'adult']),
                 get unspecified() {
 
-                    return _Count2.default.of(this.total.join() - this.immature.join() - this.adult.join());
+                    return _Count2.default.of(this.total.toInt() - this.immature.toInt() - this.adult.toInt());
                 }
             },
             juvenile: _Count2.default.of(breakOutSpecies(str)).map(countAllJuveniles),
             immature: _Count2.default.of(breakOutSpecies(str)).map(countUnspecifiedImmatures),
             adult: _Count2.default.of(breakOutSpecies(str)).map(countUnspecifiedAdults),
             unspecified: _Count2.default.of(breakOutSpecies(str)).map(countUnspecified)
-        },
-        check: _Maybe2.default.of(breakOutSpecies(str)).map(countChecks),
-        comment: _Maybe2.default.of(gatherComments(str).concat(breakOutInvalid(str)))
+        }
     };
 }
 

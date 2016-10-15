@@ -546,6 +546,11 @@ $__System.registerDynamic("4", [], true, function($__require, exports, module) {
       value: function join() {
         return this.isNothing() ? Maybe.of(null) : this.__value;
       }
+    }, {
+      key: "emit",
+      value: function emit() {
+        return this.__value;
+      }
     }]);
     return Maybe;
   }();
@@ -556,7 +561,7 @@ $__System.registerDynamic("4", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("7", ["3", "6", "4"], true, function($__require, exports, module) {
+$__System.registerDynamic("7", ["3", "6", "4", "8"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -570,6 +575,8 @@ $__System.registerDynamic("7", ["3", "6", "4"], true, function($__require, expor
   var _Count2 = _interopRequireDefault(_Count);
   var _Maybe = $__require('4');
   var _Maybe2 = _interopRequireDefault(_Maybe);
+  var _birdbrain = $__require('8');
+  var _birdbrain2 = _interopRequireDefault(_birdbrain);
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {default: obj};
   }
@@ -751,13 +758,21 @@ $__System.registerDynamic("7", ["3", "6", "4"], true, function($__require, expor
   function calculateTaxonLine(str) {
     return {
       identifier: _Maybe2.default.of(getSpecies(str)),
+      check: _Maybe2.default.of(breakOutSpecies(str)).map(countChecks),
+      comment: _Maybe2.default.of(gatherComments(str).concat(breakOutInvalid(str))),
+      get commonName() {
+        return _Maybe2.default.of(_birdbrain2.default[this.identifier.emit()] ? _birdbrain2.default[this.identifier.emit()].name : this.identifier.join());
+      },
+      get scientificName() {
+        return _Maybe2.default.of(_birdbrain2.default[this.identifier.emit()] ? _birdbrain2.default[this.identifier.emit()].scientificName : this.identifier.join());
+      },
       phenotype: {
         male: {
           total: _Count2.default.of(breakOutSpecies(str)).map(countAllMales),
           immature: getPhenotype(str)(['male', 'immature']),
           adult: getPhenotype(str)(['male', 'adult']),
           get unspecified() {
-            return _Count2.default.of(this.total.join() - this.immature.join() - this.adult.join());
+            return _Count2.default.of(this.total.toInt() - this.immature.toInt() - this.adult.toInt());
           }
         },
         female: {
@@ -765,23 +780,21 @@ $__System.registerDynamic("7", ["3", "6", "4"], true, function($__require, expor
           immature: getPhenotype(str)(['female', 'immature']),
           adult: getPhenotype(str)(['female', 'adult']),
           get unspecified() {
-            return _Count2.default.of(this.total.join() - this.immature.join() - this.adult.join());
+            return _Count2.default.of(this.total.toInt() - this.immature.toInt() - this.adult.toInt());
           }
         },
         juvenile: _Count2.default.of(breakOutSpecies(str)).map(countAllJuveniles),
         immature: _Count2.default.of(breakOutSpecies(str)).map(countUnspecifiedImmatures),
         adult: _Count2.default.of(breakOutSpecies(str)).map(countUnspecifiedAdults),
         unspecified: _Count2.default.of(breakOutSpecies(str)).map(countUnspecified)
-      },
-      check: _Maybe2.default.of(breakOutSpecies(str)).map(countChecks),
-      comment: _Maybe2.default.of(gatherComments(str).concat(breakOutInvalid(str)))
+      }
     };
   }
   exports.default = calculateTaxonLine;
   return module.exports;
 });
 
-$__System.registerDynamic("8", ["2", "5", "7"], true, function($__require, exports, module) {
+$__System.registerDynamic("9", ["2", "5", "7"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -833,7 +846,7 @@ $__System.registerDynamic("8", ["2", "5", "7"], true, function($__require, expor
   return module.exports;
 });
 
-$__System.registerDynamic("9", [], true, function($__require, exports, module) {
+$__System.registerDynamic("a", [], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -909,7 +922,7 @@ $__System.registerDynamic("9", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("a", [], true, function($__require, exports, module) {
+$__System.registerDynamic("8", [], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -6977,7 +6990,7 @@ $__System.registerDynamic("a", [], true, function($__require, exports, module) {
   return module.exports;
 });
 
-$__System.registerDynamic("1", ["8", "9", "a"], true, function($__require, exports, module) {
+$__System.registerDynamic("1", ["9", "a", "8"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -7004,11 +7017,11 @@ $__System.registerDynamic("1", ["8", "9", "a"], true, function($__require, expor
       return Constructor;
     };
   }();
-  var _checklist = $__require('8');
+  var _checklist = $__require('9');
   var _checklist2 = _interopRequireDefault(_checklist);
-  var _csv = $__require('9');
+  var _csv = $__require('a');
   var _csv2 = _interopRequireDefault(_csv);
-  var _birdbrain = $__require('a');
+  var _birdbrain = $__require('8');
   var _birdbrain2 = _interopRequireDefault(_birdbrain);
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {default: obj};
@@ -7042,25 +7055,38 @@ $__System.registerDynamic("1", ["8", "9", "a"], true, function($__require, expor
         function getSpeciesName(val) {
           return val.isNothing() ? 'bird sp.' : matchBandCode(val);
         }
+        function assembleComments(val) {
+          var phenotypeComments = '';
+          phenotypeComments += val.phenotype.female.immature.toInt() ? val.phenotype.female.immature.toInt() + ' immature females |' : '';
+          phenotypeComments += val.phenotype.female.adult.toInt() ? val.phenotype.female.adult.toInt() + ' adult females |' : '';
+          phenotypeComments += val.phenotype.female.unspecified.toInt() ? val.phenotype.female.unspecified.toInt() + ' unspecified age females |' : '';
+          phenotypeComments += val.phenotype.male.immature.toInt() ? val.phenotype.male.immature.toInt() + ' immature males |' : '';
+          phenotypeComments += val.phenotype.male.adult.toInt() ? val.phenotype.male.adult.toInt() + ' adult males |' : '';
+          phenotypeComments += val.phenotype.male.unspecified.toInt() ? val.phenotype.male.unspecified.toInt() + ' unspecified age males |' : '';
+          phenotypeComments += val.phenotype.juvenile.toInt() ? val.phenotype.juvenile.toInt() + ' juveniles |' : '';
+          phenotypeComments += val.phenotype.adult.toInt() ? val.phenotype.adult.toInt() + ' unspecified sex adults |' : '';
+          phenotypeComments += val.comment.emit() ? '' : '\n\n' + val.comment.emit();
+          return phenotypeComments;
+        }
         return list.species.reduce(function(prev, current) {
           var row = {
             'Common Name': getSpeciesName(current.identifier),
             'Genus': '',
             'Species': '',
             'Number': calculateTotal(current.phenotype),
-            'Species Comments': current.comment.__value,
-            'Location Name': list.location.__value,
+            'Species Comments': assembleComments(current),
+            'Location Name': list.location.emit(),
             'Latitude': '',
             'Longitude': '',
-            'Date': list.date.__value,
-            'Start Time': list.time.__value,
-            'State/Province': list.province.__value || 'ON',
-            'Country Code': list.country.__value || 'CA',
-            'Protocol': list.protocol.__value,
+            'Date': list.date.emit(),
+            'Start Time': list.time.emit(),
+            'State/Province': list.province.emit() || 'ON',
+            'Country Code': list.country.emit() || 'CA',
+            'Protocol': list.protocol.emit(),
             'Number of Observers': 1,
-            'Duration': list.duration.__value,
+            'Duration': list.duration.emit(),
             'All observations reported?': 'Y',
-            'Effort Distance Miles': list.distance.__value,
+            'Effort Distance Miles': list.distance.emit(),
             'Effort Area Acres': '',
             'Submission Comments': '[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]'
           };

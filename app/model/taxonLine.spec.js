@@ -142,4 +142,12 @@ describe('the taxon line model', function () {
         expect(count.phenotype.unspecified.__value).toBe(4);
         expect(count.phenotype.male.total.__value).toBe(2);
     });
+
+    it('should return the proper names', function () {
+
+        var count = (0, _taxonLine2.default)('RHWO 2jm 4');
+
+        expect(count.commonName.emit()).toBe('Red-headed Woodpecker');
+        expect(count.scientificName.emit()).toBe('Melanerpes erythrocephalus');
+    });
 });
