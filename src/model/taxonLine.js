@@ -1,6 +1,7 @@
 import fjs from '../lib/functional.js';
 import Count from '../lib/Count';
 import Maybe from '../lib/Maybe';
+import birdBrain from '../lib/birdbrain';
 
 const memoize = fn => {
 
@@ -278,6 +279,18 @@ function calculateTaxonLine(str) {
 
     return {
         identifier: Maybe.of(getSpecies(str)),
+        check: Maybe.of(breakOutSpecies(str)).map(countChecks),
+        comment: Maybe.of(gatherComments(str).concat(breakOutInvalid(str))),
+        get commonName() {
+            return Maybe.of(birdBrain[this.identifier.emit()] ?
+                    birdBrain[this.identifier.emit()].name : this.identifier.join()
+                );
+        },
+        get scientificName() {
+            return Maybe.of(birdBrain[this.identifier.emit()] ?
+                    birdBrain[this.identifier.emit()].scientificName : this.identifier.join()
+                );
+        },
         phenotype: {
             male: {
                 total: Count.of(breakOutSpecies(str)).map(countAllMales),
@@ -285,7 +298,7 @@ function calculateTaxonLine(str) {
                 adult: getPhenotype(str)(['male', 'adult']),
                 get unspecified() {
 
-                    return Count.of(this.total.join() - this.immature.join() - this.adult.join());
+                    return Count.of(this.total.toInt() - this.immature.toInt() - this.adult.toInt());
                 }
             },
             female: {
@@ -294,16 +307,14 @@ function calculateTaxonLine(str) {
                 adult: getPhenotype(str)(['female', 'adult']),
                 get unspecified() {
 
-                    return Count.of(this.total.join() - this.immature.join() - this.adult.join());
+                    return Count.of(this.total.toInt() - this.immature.toInt() - this.adult.toInt());
                 }
             },
             juvenile: Count.of(breakOutSpecies(str)).map(countAllJuveniles),
             immature: Count.of(breakOutSpecies(str)).map(countUnspecifiedImmatures),
             adult: Count.of(breakOutSpecies(str)).map(countUnspecifiedAdults),
             unspecified: Count.of(breakOutSpecies(str)).map(countUnspecified)
-        },
-        check: Maybe.of(breakOutSpecies(str)).map(countChecks),
-        comment: Maybe.of(gatherComments(str).concat(breakOutInvalid(str)))
+        }
     };
 }
 

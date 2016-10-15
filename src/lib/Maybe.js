@@ -19,6 +19,11 @@ class Maybe {
 
         return this.isNothing() ? Maybe.of(null) : this.__value;
     }
+
+    emit() {
+
+        return this.__value;
+    }
 }
 
 Maybe.of = x => new Maybe(x);
