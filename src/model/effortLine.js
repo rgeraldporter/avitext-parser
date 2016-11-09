@@ -36,15 +36,9 @@ function parseDistance(str) {
 }
 
 const parseDate = fjs.compose(convertToSlash, appendYear);
+const explodeString = memoize(str => str ? str.split(' ') : []);
 
-function _explodeString(str) {
-
-    return str ? str.split(' ') : [];
-}
-
-const explodeString = memoize(_explodeString);
-
-function parseEffortLine(str) {
+const parseEffortLine = str => {
 
     return {
 

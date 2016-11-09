@@ -51,15 +51,11 @@ function parseDistance(str) {
 }
 
 var parseDate = _functional2.default.compose(convertToSlash, appendYear);
-
-function _explodeString(str) {
-
+var explodeString = memoize(function (str) {
     return str ? str.split(' ') : [];
-}
+});
 
-var explodeString = memoize(_explodeString);
-
-function parseEffortLine(str) {
+var parseEffortLine = function parseEffortLine(str) {
 
     return {
 
@@ -82,6 +78,6 @@ function parseEffortLine(str) {
             return _Maybe2.default.of(this.protocol.join() !== 'Casual');
         }
     };
-}
+};
 
 exports.default = parseEffortLine;

@@ -19,8 +19,7 @@ var _taxonLine2 = _interopRequireDefault(_taxonLine);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function processLines(arr) {
-
+var processLines = function processLines(arr) {
     return arr.reduce(function (prev, current, index) {
 
         switch (index) {
@@ -57,7 +56,7 @@ function processLines(arr) {
 
         return prev;
     }, { species: [] });
-}
+};
 
 function checklist(str) {
 

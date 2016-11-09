@@ -10,20 +10,12 @@ const memoize = fn => {
     };
 };
 
-function _explodeString(str) {
+const explodeString = memoize(str => str ? str.split(' ') : []);
 
-    return str ? str.split(' ') : [];
-}
-
-const explodeString = memoize(_explodeString);
-
-function _findRegionCode(str) {
-
-    return explodeString(str)[0] === explodeString(str)[0].toUpperCase() ?
-        explodeString(str)[0] : null;
-}
-
-const findRegionCode = memoize(_findRegionCode);
+const findRegionCode = memoize(str =>
+    explodeString(str)[0] === explodeString(str)[0].toUpperCase() ?
+        explodeString(str)[0] : null
+);
 
 function parseCountryCode(str) {
 
@@ -35,7 +27,7 @@ function parseCountryCode(str) {
     return str.substring(0, 2);
 }
 
-function _parseSubnationalCode(str) {
+const parseSubnationalCode = memoize(str => {
 
     // USA/Canada; code will be ONCA, NYUS, etc. Return the first two letters.
     if (str.length === 4)
@@ -43,9 +35,7 @@ function _parseSubnationalCode(str) {
 
     // everywhere else; code will be MX-CHH, etc. Return last three letters.
     return str.substring(3, 6);
-}
-
-const parseSubnationalCode = memoize(_parseSubnationalCode);
+});
 
 function getSubnational(str) {
 

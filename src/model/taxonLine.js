@@ -13,40 +13,19 @@ const memoize = fn => {
     };
 };
 
-function countNumbers(str) {
-
-    return Number(str.replace(/\D/g, '') || 0);
-}
-
+const countNumbers = str => Number(str.replace(/\D/g, '') || 0);
 // males
-function countMales(str) {
+const countMales = str => countMs(str) === 1 ? countNumbers(str) || 1 : countMs(str);
+const countMs = str => Number((str.match(/m/g) || []).length);
 
-    return countMs(str) === 1 ? countNumbers(str) || 1 : countMs(str);
-}
+const countAllMales = val => val.reduce((prev, current) => {
 
-function countMs(str) {
-
-    return Number((str.match(/m/g) || []).length);
-}
-
-function countAllMales(val) {
-
-    return val.reduce((prev, current) => {
-
-        return Number(prev) + countMales(current);
-    }, 0);
-}
+    return Number(prev) + countMales(current);
+}, 0);
 
 // females
-function countFs(str) {
-
-    return Number((str.match(/f/g) || []).length);
-}
-
-function countFemales(str) {
-
-    return countFs(str) === 1 ? countNumbers(str) || 1 : countFs(str);
-}
+const countFs = str => Number((str.match(/f/g) || []).length);
+const countFemales = str => countFs(str) === 1 ? countNumbers(str) || 1 : countFs(str);
 
 function countAllFemales(val) {
 

@@ -37,40 +37,31 @@ var memoize = function memoize(fn) {
     };
 };
 
-function countNumbers(str) {
-
+var countNumbers = function countNumbers(str) {
     return Number(str.replace(/\D/g, '') || 0);
-}
-
+};
 // males
-function countMales(str) {
-
+var countMales = function countMales(str) {
     return countMs(str) === 1 ? countNumbers(str) || 1 : countMs(str);
-}
-
-function countMs(str) {
-
+};
+var countMs = function countMs(str) {
     return Number((str.match(/m/g) || []).length);
-}
+};
 
-function countAllMales(val) {
-
+var countAllMales = function countAllMales(val) {
     return val.reduce(function (prev, current) {
 
         return Number(prev) + countMales(current);
     }, 0);
-}
+};
 
 // females
-function countFs(str) {
-
+var countFs = function countFs(str) {
     return Number((str.match(/f/g) || []).length);
-}
-
-function countFemales(str) {
-
+};
+var countFemales = function countFemales(str) {
     return countFs(str) === 1 ? countNumbers(str) || 1 : countFs(str);
-}
+};
 
 function countAllFemales(val) {
 

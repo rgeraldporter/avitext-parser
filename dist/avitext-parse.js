@@ -46,11 +46,10 @@ $__System.registerDynamic("2", ["3", "4"], true, function($__require, exports, m
     return str && str !== '' ? str : null;
   }
   var parseDate = _functional2.default.compose(convertToSlash, appendYear);
-  function _explodeString(str) {
+  var explodeString = memoize(function(str) {
     return str ? str.split(' ') : [];
-  }
-  var explodeString = memoize(_explodeString);
-  function parseEffortLine(str) {
+  });
+  var parseEffortLine = function parseEffortLine(str) {
     return {
       date: _Maybe2.default.of(parseDate(explodeString(str)[0])),
       time: _Maybe2.default.of(explodeString(str)[1]),
@@ -69,7 +68,7 @@ $__System.registerDynamic("2", ["3", "4"], true, function($__require, exports, m
         return _Maybe2.default.of(this.protocol.join() !== 'Casual');
       }
     };
-  }
+  };
   exports.default = parseEffortLine;
   return module.exports;
 });
@@ -100,25 +99,22 @@ $__System.registerDynamic("5", ["4"], true, function($__require, exports, module
       return result;
     };
   };
-  function _explodeString(str) {
+  var explodeString = memoize(function(str) {
     return str ? str.split(' ') : [];
-  }
-  var explodeString = memoize(_explodeString);
-  function _findRegionCode(str) {
+  });
+  var findRegionCode = memoize(function(str) {
     return explodeString(str)[0] === explodeString(str)[0].toUpperCase() ? explodeString(str)[0] : null;
-  }
-  var findRegionCode = memoize(_findRegionCode);
+  });
   function parseCountryCode(str) {
     if (str.length === 4)
       return str.substring(2, 4);
     return str.substring(0, 2);
   }
-  function _parseSubnationalCode(str) {
+  var parseSubnationalCode = memoize(function(str) {
     if (str.length === 4)
       return str.substring(0, 2);
     return str.substring(3, 6);
-  }
-  var parseSubnationalCode = memoize(_parseSubnationalCode);
+  });
   function getSubnational(str) {
     var code = findRegionCode(str);
     return code ? parseSubnationalCode(code) : null;
@@ -593,26 +589,26 @@ $__System.registerDynamic("7", ["3", "6", "4", "8"], true, function($__require, 
       return result;
     };
   };
-  function countNumbers(str) {
+  var countNumbers = function countNumbers(str) {
     return Number(str.replace(/\D/g, '') || 0);
-  }
-  function countMales(str) {
+  };
+  var countMales = function countMales(str) {
     return countMs(str) === 1 ? countNumbers(str) || 1 : countMs(str);
-  }
-  function countMs(str) {
+  };
+  var countMs = function countMs(str) {
     return Number((str.match(/m/g) || []).length);
-  }
-  function countAllMales(val) {
+  };
+  var countAllMales = function countAllMales(val) {
     return val.reduce(function(prev, current) {
       return Number(prev) + countMales(current);
     }, 0);
-  }
-  function countFs(str) {
+  };
+  var countFs = function countFs(str) {
     return Number((str.match(/f/g) || []).length);
-  }
-  function countFemales(str) {
+  };
+  var countFemales = function countFemales(str) {
     return countFs(str) === 1 ? countNumbers(str) || 1 : countFs(str);
-  }
+  };
   function countAllFemales(val) {
     return val.reduce(function(prev, current) {
       return Number(prev) + countFemales(current);
@@ -811,7 +807,7 @@ $__System.registerDynamic("9", ["2", "5", "7"], true, function($__require, expor
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {default: obj};
   }
-  function processLines(arr) {
+  var processLines = function processLines(arr) {
     return arr.reduce(function(prev, current, index) {
       switch (index) {
         case 0:
@@ -837,7 +833,7 @@ $__System.registerDynamic("9", ["2", "5", "7"], true, function($__require, expor
       }
       return prev;
     }, {species: []});
-  }
+  };
   function checklist(str) {
     var lines = str.split(/\n/);
     return processLines(lines);

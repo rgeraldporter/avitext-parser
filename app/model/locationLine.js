@@ -25,19 +25,13 @@ var memoize = function memoize(fn) {
     };
 };
 
-function _explodeString(str) {
-
+var explodeString = memoize(function (str) {
     return str ? str.split(' ') : [];
-}
+});
 
-var explodeString = memoize(_explodeString);
-
-function _findRegionCode(str) {
-
+var findRegionCode = memoize(function (str) {
     return explodeString(str)[0] === explodeString(str)[0].toUpperCase() ? explodeString(str)[0] : null;
-}
-
-var findRegionCode = memoize(_findRegionCode);
+});
 
 function parseCountryCode(str) {
 
@@ -48,16 +42,14 @@ function parseCountryCode(str) {
     return str.substring(0, 2);
 }
 
-function _parseSubnationalCode(str) {
+var parseSubnationalCode = memoize(function (str) {
 
     // USA/Canada; code will be ONCA, NYUS, etc. Return the first two letters.
     if (str.length === 4) return str.substring(0, 2);
 
     // everywhere else; code will be MX-CHH, etc. Return last three letters.
     return str.substring(3, 6);
-}
-
-var parseSubnationalCode = memoize(_parseSubnationalCode);
+});
 
 function getSubnational(str) {
 
