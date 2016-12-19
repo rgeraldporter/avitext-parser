@@ -39,4 +39,23 @@ HAWO 5m f`;
         expect(myParsedChecklist.source).toBe(text);
         expect(myParsedChecklist.toCsv()).toBe(expectedCsv);
     });
+
+    it('should handle a avitext checklist conversion to csv with species comments', () => {
+
+        let text = `ONCA Cootes Paradise
+04-09-2016 17:05 15 1.6km
+DOWO 3m 2f "photos taken"
+HAWO 5m f`;
+
+        let expectedCsv = `"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |\n\nphotos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
+"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"`;
+
+        let myParsedChecklist = new Parse(text);
+
+        expect(myParsedChecklist.checklist.species.length).toBe(2);
+        expect(myParsedChecklist.checklist.location.__value).toBe('Cootes Paradise');
+        expect(myParsedChecklist.checklist.province.__value).toBe('ON');
+        expect(myParsedChecklist.source).toBe(text);
+        expect(myParsedChecklist.toCsv()).toBe(expectedCsv);
+    });
 });

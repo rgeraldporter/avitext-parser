@@ -7061,7 +7061,7 @@ $__System.registerDynamic("1", ["9", "a", "8"], true, function($__require, expor
           phenotypeComments += val.phenotype.male.unspecified.toInt() ? val.phenotype.male.unspecified.toInt() + ' unspecified age males |' : '';
           phenotypeComments += val.phenotype.juvenile.toInt() ? val.phenotype.juvenile.toInt() + ' juveniles |' : '';
           phenotypeComments += val.phenotype.adult.toInt() ? val.phenotype.adult.toInt() + ' unspecified sex adults |' : '';
-          phenotypeComments += val.comment.emit() ? '' : '\n\n' + val.comment.emit();
+          phenotypeComments += val.comment.emit().length ? '\n\n' + val.comment.emit() : '';
           return phenotypeComments;
         }
         return list.species.reduce(function(prev, current) {
