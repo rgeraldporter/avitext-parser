@@ -702,7 +702,7 @@ $__System.registerDynamic("7", ["3", "6", "4", "8"], true, function($__require, 
     });
   }
   function extractQuotes(str) {
-    return str.match(/(['"])((\\\1|.)*?)\1/gm) || [];
+    return str.match(/\"(.[\s\S]*?)\"/gm) || [];
   }
   function removeQuotes(str) {
     return str.replace(/(['"])((\\\1|.)*?)\1/gm, '');
@@ -712,8 +712,11 @@ $__System.registerDynamic("7", ["3", "6", "4", "8"], true, function($__require, 
       return str.substring(2);
     return getCustomTaxon(str).length ? str.substring(getCustomTaxon(str)[0].length) : str.substring(4);
   }
+  function convertHardLineBreaks(str) {
+    return str ? str.replace(/(\r\n|\n|\r)/gm, '; ') : null;
+  }
   function gatherComments(str) {
-    return extractQuotes(str).map(trimString);
+    return extractQuotes(str).map(convertHardLineBreaks).map(trimString);
   }
   function gatherInvalid(arr) {
     return (arr.slice(1) || []).reduce(function(prev, current) {
@@ -7061,7 +7064,7 @@ $__System.registerDynamic("1", ["9", "a", "8"], true, function($__require, expor
           phenotypeComments += val.phenotype.male.unspecified.toInt() ? val.phenotype.male.unspecified.toInt() + ' unspecified age males |' : '';
           phenotypeComments += val.phenotype.juvenile.toInt() ? val.phenotype.juvenile.toInt() + ' juveniles |' : '';
           phenotypeComments += val.phenotype.adult.toInt() ? val.phenotype.adult.toInt() + ' unspecified sex adults |' : '';
-          phenotypeComments += val.comment.emit().length ? '\n\n' + val.comment.emit() : '';
+          phenotypeComments += val.comment.emit().length ? val.comment.emit() : '';
           return phenotypeComments;
         }
         return list.species.reduce(function(prev, current) {

@@ -210,7 +210,7 @@ function discardInvalid(arr) {
 
 function extractQuotes(str) {
 
-    return str.match(/(['"])((\\\1|.)*?)\1/gm) || [];
+    return str.match(/\"(.[\s\S]*?)\"/gm) || [];
 }
 
 function removeQuotes(str) {
@@ -225,9 +225,14 @@ function removeTaxon(str) {
     return getCustomTaxon(str).length ? str.substring(getCustomTaxon(str)[0].length) : str.substring(4);
 }
 
+function convertHardLineBreaks(str) {
+
+    return str ? str.replace(/(\r\n|\n|\r)/gm, '; ') : null;
+}
+
 function gatherComments(str) {
 
-    return extractQuotes(str).map(trimString);
+    return extractQuotes(str).map(convertHardLineBreaks).map(trimString);
 }
 
 function gatherInvalid(arr) {

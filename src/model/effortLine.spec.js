@@ -10,11 +10,11 @@ describe('the effort line model', () => {
         expect(effort.date.__value).toBe('02/12/2016');
     });
 
-    it('should be able to determine the date given no year (and it\'s still 2016)', () => {
+    it('should be able to determine the date given no year (and it\'s still 2017)', () => {
 
         let effort = parseEffortLine('02-12 17:05 15 1.2km');
 
-        expect(effort.date.__value).toBe('02/12/2016');
+        expect(effort.date.__value).toBe('02/12/2017');
     });
 
     it('should be able to determine the date given a four digit year', () => {

@@ -14,6 +14,14 @@ describe('the taxon line model', () => {
         expect(count.comment.__value[1]).toBe('2nd year immature');
     });
 
+    it('should be able to convert hard line breaks in comments', () => {
+
+        const lineBreak = 'BAEA 1 1i "2nd year immature\nflyover"';
+        const count = calculateTaxonLine(lineBreak);
+
+        expect(count.comment.__value[0]).toBe('2nd year immature; flyover');
+    });
+
     it('should calculate male, female, and unspecified sex of recorded species', () => {
 
         const count = calculateTaxonLine('MALL 1 6 2m 3m mmm f m 3 4f fmfm');

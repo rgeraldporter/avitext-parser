@@ -66,7 +66,7 @@ class Parse {
             phenotypeComments += val.phenotype.adult.toInt() ?
                 val.phenotype.adult.toInt() + ' unspecified sex adults |' : '';
 
-            phenotypeComments += val.comment.emit().length ? '\n\n' + val.comment.emit() : '';
+            phenotypeComments += val.comment.emit().length ? val.comment.emit() : '';
 
             return phenotypeComments;
         }
