@@ -41,6 +41,8 @@ $__System.registerDynamic("2", ["3", "4"], true, function($__require, exports, m
     return str + '-' + new Date().getFullYear();
   }
   function parseDistance(str) {
+    if (str.startsWith('.'))
+      str = '0' + str;
     if (str.search(/km|k/i) !== -1)
       return (parseInt(str.slice(0, -2)) * 0.6214).toFixed(2);
     return str && str !== '' ? str : null;

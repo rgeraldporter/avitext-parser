@@ -45,6 +45,9 @@ function appendYear(str) {
 
 function parseDistance(str) {
 
+    // convert .5 => 0.5
+    if (str.startsWith('.')) str = '0' + str;
+
     if (str.search(/km|k/i) !== -1) return (parseInt(str.slice(0, -2)) * 0.6214).toFixed(2);
 
     return str && str !== '' ? str : null;

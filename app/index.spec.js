@@ -39,7 +39,22 @@ describe('the Parse class', function () {
 
                 var text = 'ONCA Cootes Paradise\n04-09-2016 17:05 15 1.6km\nDOWO 3m 2f "photos taken"\nHAWO 5m f';
 
-                var expectedCsv = '"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |\n\nphotos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"\n"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"';
+                var expectedCsv = '"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |photos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"\n"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"';
+
+                var myParsedChecklist = new _index2.default(text);
+
+                expect(myParsedChecklist.checklist.species.length).toBe(2);
+                expect(myParsedChecklist.checklist.location.__value).toBe('Cootes Paradise');
+                expect(myParsedChecklist.checklist.province.__value).toBe('ON');
+                expect(myParsedChecklist.source).toBe(text);
+                expect(myParsedChecklist.toCsv()).toBe(expectedCsv);
+        });
+
+        it('should handle a avitext checklist conversion to csv with species comments and a distance starting with a decimal', function () {
+
+                var text = 'ONCA Cootes Paradise\n04-09-2016 17:05 15 .6km\nDOWO 3m 2f "photos taken"\nHAWO 5m f';
+
+                var expectedCsv = '"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |photos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.00","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"\n"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.00","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"';
 
                 var myParsedChecklist = new _index2.default(text);
 
