@@ -1,9 +1,11 @@
 # avitext-parser
-####v0.3.1
+####v0.3.2
 
 A module for parsing [avitext](https://github.com/rgeraldporter/avitext-spec) files.
 
-This is an early version that has not been tested much. You have been warned.
+This is an early version that has not been tested much. You have been warned!
+
+[![Build Status](https://travis-ci.org/rgeraldporter/avitext-parser.svg?branch=master)](https://travis-ci.org/rgeraldporter/avitext-parser)
 
 ## Setup
 
