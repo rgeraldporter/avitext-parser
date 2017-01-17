@@ -43,8 +43,10 @@ $__System.registerDynamic("2", ["3", "4"], true, function($__require, exports, m
   function parseDistance(str) {
     if (str.startsWith('.'))
       str = '0' + str;
-    if (str.search(/km|k/i) !== -1)
-      return (parseInt(str.slice(0, -2)) * 0.6214).toFixed(2);
+    if (str.search(/km/i) !== -1)
+      return (Number(str.slice(0, -2)) * 0.6214).toFixed(2);
+    if (str.search(/k/i) !== -1)
+      return (Number(str.slice(0, -1)) * 0.6214).toFixed(2);
     return str && str !== '' ? str : null;
   }
   var parseDate = _functional2.default.compose(convertToSlash, appendYear);

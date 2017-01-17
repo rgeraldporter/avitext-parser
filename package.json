@@ -1,7 +1,7 @@
 {
   "name": "avitext-parser",
   "preferGlobal": false,
-  "version": "0.3.2",
+  "version": "0.3.3",
   "author": "Robert Gerald Porter <rob@inpictures.ca>",
   "description": "Parser for Avitext files.",
   "main": "./app/index.js",

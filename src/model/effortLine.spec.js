@@ -42,15 +42,23 @@ describe('the effort line model', () => {
 
         let effort = parseEffortLine('02-12-2016 17:05 15 1.2km');
 
-        expect(effort.distance.__value).toBe('0.62');
+        expect(effort.distance.__value).toBe('0.75');
     });
 
     it('should be able to determine the distance when using k', () => {
 
         let effort = parseEffortLine('02-12-2016 17:05 15 1.2k');
 
-        expect(effort.distance.__value).toBe('0.62');
+        expect(effort.distance.__value).toBe('0.75');
     });
+
+    it('should be able to determine the distance when using k, to two decimal values', () => {
+
+        let effort = parseEffortLine('02-12-2016 17:05 15 1.6k');
+
+        expect(effort.distance.__value).toBe('0.99');
+    });
+
 
     it('should be able to determine the distance when using miles', () => {
 

@@ -24,7 +24,7 @@ describe('the Parse class', function () {
 
                 var text = 'ONCA Cootes Paradise\n04-09-2016 17:05 15 1.6km\nDOWO 3m 2f\nHAWO 5m f';
 
-                var expectedCsv = '"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"\n"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"';
+                var expectedCsv = '"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.99","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"\n"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.99","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"';
 
                 var myParsedChecklist = new _index2.default(text);
 
@@ -39,7 +39,7 @@ describe('the Parse class', function () {
 
                 var text = 'ONCA Cootes Paradise\n04-09-2016 17:05 15 1.6km\nDOWO 3m 2f "photos taken"\nHAWO 5m f';
 
-                var expectedCsv = '"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |photos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"\n"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"';
+                var expectedCsv = '"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |photos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.99","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"\n"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.99","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"';
 
                 var myParsedChecklist = new _index2.default(text);
 
@@ -54,7 +54,7 @@ describe('the Parse class', function () {
 
                 var text = 'ONCA Cootes Paradise\n04-09-2016 17:05 15 .6km\nDOWO 3m 2f "photos taken"\nHAWO 5m f';
 
-                var expectedCsv = '"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |photos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.00","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"\n"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.00","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"';
+                var expectedCsv = '"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |photos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.37","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"\n"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.37","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"';
 
                 var myParsedChecklist = new _index2.default(text);
 

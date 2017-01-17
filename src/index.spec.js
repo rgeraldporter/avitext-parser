@@ -28,8 +28,8 @@ HAWO 5m f`;
 DOWO 3m 2f
 HAWO 5m f`;
 
-        let expectedCsv = `"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
-"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"`;
+        let expectedCsv = `"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.99","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
+"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.99","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"`;
 
         let myParsedChecklist = new Parse(text);
 
@@ -47,8 +47,8 @@ HAWO 5m f`;
 DOWO 3m 2f "photos taken"
 HAWO 5m f`;
 
-        let expectedCsv = `"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |photos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
-"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.62","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"`;
+        let expectedCsv = `"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |photos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.99","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
+"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.99","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"`;
 
         let myParsedChecklist = new Parse(text);
 
@@ -66,8 +66,8 @@ HAWO 5m f`;
 DOWO 3m 2f "photos taken"
 HAWO 5m f`;
 
-        let expectedCsv = `"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |photos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.00","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
-"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.00","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"`;
+        let expectedCsv = `"Downy Woodpecker","","",5,"2 unspecified age females |3 unspecified age males |photos taken","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.37","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"
+"Hairy Woodpecker","","",6,"1 unspecified age females |5 unspecified age males |","Cootes Paradise","","","04/09/2016","17:05","ON","CA","Traveling",1,"15","Y","0.37","","[Parsed from AviText file. See https://github.com/rgeraldporter/avitext-spec for more info.]"`;
 
         let myParsedChecklist = new Parse(text);
 
