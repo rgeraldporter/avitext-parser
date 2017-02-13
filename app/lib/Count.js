@@ -3,49 +3,33 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+var Count_ = function Count_(x) {
+    return {
+        map: function map(f) {
+            return x ? Count_(f(x)) : Count_(null);
+        },
+        isNothing: function isNothing() {
+            return x === null || x === undefined;
+        },
+        join: function join() {
+            return x ? x : Count_(null);
+        },
+        toInt: function toInt() {
+            return x ? parseInt(x) : 0;
+        },
+        emit: function emit() {
+            return x;
+        },
+        fold: function fold(f) {
+            return f(x);
+        }
+    };
+};
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Count = function () {
-    function Count(x) {
-        _classCallCheck(this, Count);
-
-        this.__value = x;
+var Count = {
+    of: function of(x) {
+        return Count_(x);
     }
-
-    _createClass(Count, [{
-        key: "map",
-        value: function map(f) {
-
-            return this.isNothing() ? Count.of(null) : Count.of(f(this.__value));
-        }
-    }, {
-        key: "isNothing",
-        value: function isNothing() {
-
-            return this.__value === null || this.__value === undefined;
-        }
-    }, {
-        key: "join",
-        value: function join() {
-
-            return this.isNothing() ? Count.of(null) : this.__value;
-        }
-    }, {
-        key: "toInt",
-        value: function toInt() {
-
-            return this.isNothing() ? 0 : parseInt(this.__value);
-        }
-    }]);
-
-    return Count;
-}();
-
-Count.of = function (x) {
-    return new Count(x);
 };
 
 exports.default = Count;

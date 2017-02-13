@@ -13,8 +13,8 @@ describe('the Parse class', function () {
         var myParsedChecklist = new _index2.default(text);
 
         expect(myParsedChecklist.checklist.species.length).toBe(6);
-        expect(myParsedChecklist.checklist.location.__value).toBe('Cootes Paradise');
-        expect(myParsedChecklist.checklist.province.__value).toBe('ON');
+        expect(myParsedChecklist.checklist.location.emit()).toBe('Cootes Paradise');
+        expect(myParsedChecklist.checklist.province.emit()).toBe('ON');
         expect(myParsedChecklist.source).toBe(text);
     });
 
@@ -26,8 +26,8 @@ describe('the Parse class', function () {
         var myParsedChecklist = new _index2.default(text);
 
         expect(myParsedChecklist.checklist.species.length).toBe(2);
-        expect(myParsedChecklist.checklist.location.__value).toBe('Cootes Paradise');
-        expect(myParsedChecklist.checklist.province.__value).toBe('ON');
+        expect(myParsedChecklist.checklist.location.emit()).toBe('Cootes Paradise');
+        expect(myParsedChecklist.checklist.province.emit()).toBe('ON');
         expect(myParsedChecklist.source).toBe(text);
         expect(myParsedChecklist.toCsv()).toBe(expectedCsv);
     });
@@ -40,8 +40,8 @@ describe('the Parse class', function () {
         var myParsedChecklist = new _index2.default(text);
 
         expect(myParsedChecklist.checklist.species.length).toBe(2);
-        expect(myParsedChecklist.checklist.location.__value).toBe('Cootes Paradise');
-        expect(myParsedChecklist.checklist.province.__value).toBe('ON');
+        expect(myParsedChecklist.checklist.location.emit()).toBe('Cootes Paradise');
+        expect(myParsedChecklist.checklist.province.emit()).toBe('ON');
         expect(myParsedChecklist.source).toBe(text);
         expect(myParsedChecklist.toCsv()).toBe(expectedCsv);
     });
@@ -54,8 +54,8 @@ describe('the Parse class', function () {
         var myParsedChecklist = new _index2.default(text);
 
         expect(myParsedChecklist.checklist.species.length).toBe(2);
-        expect(myParsedChecklist.checklist.location.__value).toBe('Cootes Paradise');
-        expect(myParsedChecklist.checklist.province.__value).toBe('ON');
+        expect(myParsedChecklist.checklist.location.emit()).toBe('Cootes Paradise');
+        expect(myParsedChecklist.checklist.province.emit()).toBe('ON');
         expect(myParsedChecklist.source).toBe(text);
         expect(myParsedChecklist.toCsv()).toBe(expectedCsv);
     });

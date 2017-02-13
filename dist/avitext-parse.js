@@ -432,61 +432,31 @@ $__System.registerDynamic("6", [], true, function($__require, exports, module) {
       global = this,
       GLOBAL = this;
   Object.defineProperty(exports, "__esModule", {value: true});
-  var _createClass = function() {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor)
-          descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
+  var Count_ = function Count_(x) {
+    return {
+      map: function map(f) {
+        return x ? Count_(f(x)) : Count_(null);
+      },
+      isNothing: function isNothing() {
+        return x === null || x === undefined;
+      },
+      join: function join() {
+        return x ? x : Count_(null);
+      },
+      toInt: function toInt() {
+        return x ? parseInt(x) : 0;
+      },
+      emit: function emit() {
+        return x;
+      },
+      fold: function fold(f) {
+        return f(x);
       }
-    }
-    return function(Constructor, protoProps, staticProps) {
-      if (protoProps)
-        defineProperties(Constructor.prototype, protoProps);
-      if (staticProps)
-        defineProperties(Constructor, staticProps);
-      return Constructor;
     };
-  }();
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-  var Count = function() {
-    function Count(x) {
-      _classCallCheck(this, Count);
-      this.__value = x;
-    }
-    _createClass(Count, [{
-      key: "map",
-      value: function map(f) {
-        return this.isNothing() ? Count.of(null) : Count.of(f(this.__value));
-      }
-    }, {
-      key: "isNothing",
-      value: function isNothing() {
-        return this.__value === null || this.__value === undefined;
-      }
-    }, {
-      key: "join",
-      value: function join() {
-        return this.isNothing() ? Count.of(null) : this.__value;
-      }
-    }, {
-      key: "toInt",
-      value: function toInt() {
-        return this.isNothing() ? 0 : parseInt(this.__value);
-      }
-    }]);
-    return Count;
-  }();
-  Count.of = function(x) {
-    return new Count(x);
   };
+  var Count = {of: function of(x) {
+      return Count_(x);
+    }};
   exports.default = Count;
   return module.exports;
 });
@@ -498,61 +468,28 @@ $__System.registerDynamic("4", [], true, function($__require, exports, module) {
       global = this,
       GLOBAL = this;
   Object.defineProperty(exports, "__esModule", {value: true});
-  var _createClass = function() {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor)
-          descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
+  var Maybe_ = function Maybe_(x) {
+    return {
+      map: function map(f) {
+        return x ? Maybe_(f(x)) : Maybe_(null);
+      },
+      isNothing: function isNothing() {
+        return x === null || x === undefined;
+      },
+      join: function join() {
+        return x ? x : Maybe_(null);
+      },
+      emit: function emit() {
+        return x;
+      },
+      fold: function fold(f) {
+        return f(x);
       }
-    }
-    return function(Constructor, protoProps, staticProps) {
-      if (protoProps)
-        defineProperties(Constructor.prototype, protoProps);
-      if (staticProps)
-        defineProperties(Constructor, staticProps);
-      return Constructor;
     };
-  }();
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-  var Maybe = function() {
-    function Maybe(x) {
-      _classCallCheck(this, Maybe);
-      this.__value = x;
-    }
-    _createClass(Maybe, [{
-      key: "map",
-      value: function map(f) {
-        return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value));
-      }
-    }, {
-      key: "isNothing",
-      value: function isNothing() {
-        return this.__value === null || this.__value === undefined;
-      }
-    }, {
-      key: "join",
-      value: function join() {
-        return this.isNothing() ? Maybe.of(null) : this.__value;
-      }
-    }, {
-      key: "emit",
-      value: function emit() {
-        return this.__value;
-      }
-    }]);
-    return Maybe;
-  }();
-  Maybe.of = function(x) {
-    return new Maybe(x);
   };
+  var Maybe = {of: function of(x) {
+      return Maybe_(x);
+    }};
   exports.default = Maybe;
   return module.exports;
 });

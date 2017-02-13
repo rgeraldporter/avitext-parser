@@ -19,8 +19,12 @@ describe('the checklist model', function () {
         var mylist = (0, _checklist2.default)(text);
 
         expect(mylist.species.length).toBe(6);
-        expect(mylist.location.__value).toBe('Cootes Paradise');
-        expect(mylist.province.__value).toBe('ON');
+        mylist.location.fold(function (x) {
+            return expect(x).toBe('Cootes Paradise');
+        });
+        mylist.province.fold(function (x) {
+            return expect(x).toBe('ON');
+        });
     });
 
     it('should handle not having a location code', function () {
@@ -30,7 +34,9 @@ describe('the checklist model', function () {
         var mylist = (0, _checklist2.default)(text);
 
         expect(mylist.species.length).toBe(6);
-        expect(mylist.location.__value).toBe('Cootes Paradise');
+        mylist.location.fold(function (x) {
+            return expect(x).toBe('Cootes Paradise');
+        });
     });
 
     it('should handle a having no duration or distance', function () {
@@ -40,8 +46,12 @@ describe('the checklist model', function () {
         var mylist = (0, _checklist2.default)(text);
 
         expect(mylist.species.length).toBe(6);
-        expect(mylist.location.__value).toBe('Cootes Paradise');
-        expect(mylist.province.__value).toBe('ON');
+        mylist.location.fold(function (x) {
+            return expect(x).toBe('Cootes Paradise');
+        });
+        mylist.province.fold(function (x) {
+            return expect(x).toBe('ON');
+        });
     });
 
     it('should handle a blank line', function () {
@@ -51,7 +61,11 @@ describe('the checklist model', function () {
         var mylist = (0, _checklist2.default)(text);
 
         expect(mylist.species.length).toBe(6);
-        expect(mylist.location.__value).toBe('Cootes Paradise');
-        expect(mylist.province.__value).toBe('ON');
+        mylist.location.fold(function (x) {
+            return expect(x).toBe('Cootes Paradise');
+        });
+        mylist.province.fold(function (x) {
+            return expect(x).toBe('ON');
+        });
     });
 });
