@@ -21,12 +21,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var processLines = function processLines(arr) {
     return arr.reduce(function (prev, current, index) {
-
         switch (index) {
-
             case 0:
                 {
-
                     var location = (0, _locationLine2.default)(current);
 
                     Object.assign(prev, location);
@@ -36,7 +33,6 @@ var processLines = function processLines(arr) {
                 }
             case 1:
                 {
-
                     var effort = (0, _effortLine2.default)(current);
 
                     Object.assign(prev, effort);
@@ -44,7 +40,6 @@ var processLines = function processLines(arr) {
                 }
             default:
                 {
-
                     if (!current) return prev;
 
                     var taxon = (0, _taxonLine2.default)(current);
@@ -58,11 +53,8 @@ var processLines = function processLines(arr) {
     }, { species: [] });
 };
 
-function checklist(str) {
-
-    var lines = str.split(/\n/);
-
-    return processLines(lines);
-}
+var checklist = function checklist(str) {
+    return processLines(str.split(/\n/));
+};
 
 exports.default = checklist;

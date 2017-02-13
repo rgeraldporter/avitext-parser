@@ -30,26 +30,29 @@ $__System.registerDynamic("2", ["3", "4"], true, function($__require, exports, m
       return result;
     };
   };
-  function convertToSlash(str) {
+  var convertToSlash = function convertToSlash(str) {
     return str.replace(/-/g, '/');
-  }
-  function appendYear(str) {
-    if (str.length > 8)
-      return str;
-    if (str.length === 8)
-      return str.slice(0, -3) + '-20' + str.slice(-2);
-    return str + '-' + new Date().getFullYear();
-  }
-  function parseDistance(str) {
-    if (str.startsWith('.'))
-      str = '0' + str;
-    if (str.search(/km/i) !== -1)
-      return (Number(str.slice(0, -2)) * 0.6214).toFixed(2);
-    if (str.search(/k/i) !== -1)
-      return (Number(str.slice(0, -1)) * 0.6214).toFixed(2);
+  };
+  var appendYear = function appendYear(str) {
+    return str.length === 8 ? str.slice(0, -3) + '-20' + str.slice(-2) : str + '-' + new Date().getFullYear();
+  };
+  var shouldAppendYear = function shouldAppendYear(str) {
+    return str.length > 8 ? str : appendYear(str);
+  };
+  var leadingZero = function leadingZero(str) {
+    return str.startsWith('.') ? '0' + str : str;
+  };
+  var convertKmToMiles = function convertKmToMiles(str) {
+    return str.search(/km/i) !== -1 ? (Number(str.slice(0, -2)) * 0.6214).toFixed(2) : str;
+  };
+  var convertKToMiles = function convertKToMiles(str) {
+    return str.search(/k/i) !== -1 ? (Number(str.slice(0, -1)) * 0.6214).toFixed(2) : str;
+  };
+  var strOrNull = function strOrNull(str) {
     return str && str !== '' ? str : null;
-  }
-  var parseDate = _functional2.default.compose(convertToSlash, appendYear);
+  };
+  var parseDistance = _functional2.default.compose(strOrNull, convertKToMiles, convertKmToMiles, leadingZero);
+  var parseDate = _functional2.default.compose(convertToSlash, shouldAppendYear);
   var explodeString = memoize(function(str) {
     return str ? str.split(' ') : [];
   });
@@ -109,35 +112,28 @@ $__System.registerDynamic("5", ["4"], true, function($__require, exports, module
   var findRegionCode = memoize(function(str) {
     return explodeString(str)[0] === explodeString(str)[0].toUpperCase() ? explodeString(str)[0] : null;
   });
-  function parseCountryCode(str) {
-    if (str.length === 4)
-      return str.substring(2, 4);
-    return str.substring(0, 2);
-  }
+  var parseCountryCode = function parseCountryCode(str) {
+    return str.length === 4 ? str.substring(2, 4) : str.substring(0, 2);
+  };
   var parseSubnationalCode = memoize(function(str) {
-    if (str.length === 4)
-      return str.substring(0, 2);
-    return str.substring(3, 6);
+    return str.length === 4 ? str.substring(0, 2) : str.substring(3, 6);
   });
-  function getSubnational(str) {
-    var code = findRegionCode(str);
-    return code ? parseSubnationalCode(code) : null;
-  }
-  function parseCountry(str) {
-    var code = findRegionCode(str);
-    return code ? parseCountryCode(code) : null;
-  }
-  function getLocation(str) {
-    var code = findRegionCode(str);
-    return code ? str.replace(code, '').substring(1) : str;
-  }
-  function parseLocationLine(str) {
+  var getSubnational = function getSubnational(str) {
+    return findRegionCode(str) ? parseSubnationalCode(findRegionCode(str)) : null;
+  };
+  var parseCountry = function parseCountry(str) {
+    return findRegionCode(str) ? parseCountryCode(findRegionCode(str)) : null;
+  };
+  var getLocation = function getLocation(str) {
+    return findRegionCode(str) ? str.replace(findRegionCode(str), '').substring(1) : str;
+  };
+  var parseLocationLine = function parseLocationLine(str) {
     return {
       location: _Maybe2.default.of(getLocation(str)),
       province: _Maybe2.default.of(getSubnational(str)),
       country: _Maybe2.default.of(parseCountry(str))
     };
-  }
+  };
   exports.default = parseLocationLine;
   return module.exports;
 });
@@ -613,65 +609,63 @@ $__System.registerDynamic("7", ["3", "6", "4", "8"], true, function($__require, 
   var countFemales = function countFemales(str) {
     return countFs(str) === 1 ? countNumbers(str) || 1 : countFs(str);
   };
-  function countAllFemales(val) {
+  var countAllFemales = function countAllFemales(val) {
     return val.reduce(function(prev, current) {
       return Number(prev) + countFemales(current);
     }, 0);
-  }
-  function countJs(str) {
+  };
+  var countJs = function countJs(str) {
     return Number((str.match(/j/g) || []).length);
-  }
-  function countJuveniles(str) {
+  };
+  var countJuveniles = function countJuveniles(str) {
     return countJs(str) === 1 && countNonNumeric(str) === 1 ? countNumbers(str) || 1 : 0;
-  }
-  function countAllJuveniles(val) {
+  };
+  var countAllJuveniles = function countAllJuveniles(val) {
     return val.reduce(function(prev, current) {
       return Number(prev) + countJuveniles(current);
     }, 0);
-  }
-  function countIs(str) {
+  };
+  var countIs = function countIs(str) {
     return Number((str.match(/i/g) || []).length);
-  }
-  function countImmatures(str) {
+  };
+  var countImmatures = function countImmatures(str) {
     return countIs(str) === 1 && countNonNumeric(str) === 1 ? countNumbers(str) || 1 : 0;
-  }
-  function countUnspecifiedImmatures(val) {
+  };
+  var countUnspecifiedImmatures = function countUnspecifiedImmatures(val) {
     return val.reduce(function(prev, current) {
       return Number(prev) + countImmatures(current);
     }, 0);
-  }
-  function countAs(str) {
+  };
+  var countAs = function countAs(str) {
     return Number((str.match(/a/g) || []).length);
-  }
-  function countAdults(str) {
+  };
+  var countAdults = function countAdults(str) {
     return countAs(str) === 1 && countNonNumeric(str) === 1 ? countNumbers(str) || 1 : 0;
-  }
-  function countUnspecifiedAdults(val) {
+  };
+  var countUnspecifiedAdults = function countUnspecifiedAdults(val) {
     return val.reduce(function(prev, current) {
       return Number(prev) + countAdults(current);
     }, 0);
-  }
-  function countXs(str) {
+  };
+  var countXs = function countXs(str) {
     return Number((str.match(/x/g) || []).length);
-  }
-  function countChecks(val) {
+  };
+  var countChecks = function countChecks(val) {
     return val.reduce(function(prev, current) {
-      var check = prev;
-      countXs(current) === 1 ? check = true : null;
-      return check;
+      return countXs(current) === 1 ? true : prev;
     }, false);
-  }
-  function countNonNumeric(str) {
+  };
+  var countNonNumeric = function countNonNumeric(str) {
     return Number((str.match(/\D/g) || []).length);
-  }
-  function countValidCharacters(str) {
+  };
+  var countValidCharacters = function countValidCharacters(str) {
     return Number((str.match(/a|i|j|f|m|x/g) || []).length);
-  }
-  function countUnspecified(val) {
+  };
+  var countUnspecified = function countUnspecified(val) {
     return val.reduce(function(prev, current) {
       return Number(prev) + (/[^$,\.\d]/.test(current) ? 0 : countNumbers(current));
     }, 0);
-  }
+  };
   function countCombo(val) {
     return val.reduce(function(prev, current) {
       if (countAs(current) === 1 && (countFs(current) === 1 || countMs(current) === 1)) {
@@ -693,71 +687,69 @@ $__System.registerDynamic("7", ["3", "6", "4", "8"], true, function($__require, 
       }
     });
   }
-  function implodeString(arr) {
+  var implodeString = function implodeString(arr) {
     return arr.length ? arr.join(' ') : [];
-  }
-  function _explodeString(str) {
+  };
+  var explodeString_ = function explodeString_(str) {
     return str ? str.split(' ') : [];
-  }
-  var explodeString = memoize(_explodeString);
-  function discardInvalid(arr) {
+  };
+  var explodeString = memoize(explodeString_);
+  var discardInvalid = function discardInvalid(arr) {
     return (arr || []).filter(function(str) {
       return countValidCharacters(str) === countNonNumeric(str) ? true : false;
     });
-  }
-  function extractQuotes(str) {
+  };
+  var extractQuotes = function extractQuotes(str) {
     return str.match(/\"(.[\s\S]*?)\"/gm) || [];
-  }
-  function removeQuotes(str) {
+  };
+  var removeQuotes = function removeQuotes(str) {
     return str.replace(/(['"])((\\\1|.)*?)\1/gm, '');
-  }
+  };
   function removeTaxon(str) {
     if (str.substring(0, 2) === '[]')
       return str.substring(2);
     return getCustomTaxon(str).length ? str.substring(getCustomTaxon(str)[0].length) : str.substring(4);
   }
-  function convertHardLineBreaks(str) {
+  var convertHardLineBreaks = function convertHardLineBreaks(str) {
     return str ? str.replace(/(\r\n|\n|\r)/gm, '; ') : null;
-  }
-  function gatherComments(str) {
+  };
+  var gatherComments = function gatherComments(str) {
     return extractQuotes(str).map(convertHardLineBreaks).map(trimString);
-  }
-  function gatherInvalid(arr) {
+  };
+  var gatherInvalid = function gatherInvalid(arr) {
     return (arr.slice(1) || []).reduce(function(prev, current) {
-      if (countValidCharacters(current) !== countNonNumeric(current))
-        prev.push(current);
-      return prev;
+      return countValidCharacters(current) !== countNonNumeric(current) ? prev.concat(current) : prev;
     }, []);
-  }
-  function getBand4Code(str) {
+  };
+  var getBand4Code = function getBand4Code(str) {
     return str.substring(0, 4);
-  }
-  function trimString(str) {
+  };
+  var trimString = function trimString(str) {
     return str ? str.substring(1, str.length - 1) : null;
-  }
-  function getEmptyTaxon(str) {
+  };
+  var getEmptyTaxon = function getEmptyTaxon(str) {
     return str.substring(0, 2) === '[]' ? ['[passerine sp.]'] : false;
-  }
-  function getCustomTaxon(str) {
+  };
+  var getCustomTaxon = function getCustomTaxon(str) {
     return getEmptyTaxon(str) || str.match(/\[([^)]+)\]/g) || [];
-  }
-  function getSpecies(str) {
+  };
+  var getSpecies = function getSpecies(str) {
     return getCustomTaxon(str).length ? trimString(getCustomTaxon(str)[0]) : getBand4Code(str);
-  }
+  };
   var breakOutInvalid = _functional2.default.compose(implodeString, gatherInvalid, explodeString, removeQuotes, removeTaxon);
-  var _breakOutSpecies = _functional2.default.compose(discardInvalid, explodeString, removeQuotes, removeTaxon);
-  var breakOutSpecies = memoize(_breakOutSpecies);
-  function _calcPhenotypes(str) {
+  var breakOutSpecies_ = _functional2.default.compose(discardInvalid, explodeString, removeQuotes, removeTaxon);
+  var breakOutSpecies = memoize(breakOutSpecies_);
+  var calcPhenotypes_ = function calcPhenotypes_(str) {
     return _Count2.default.of(breakOutSpecies(str)).map(countCombo);
-  }
-  var calcPhenotypes = memoize(_calcPhenotypes);
-  function getPhenotype(str) {
+  };
+  var calcPhenotypes = memoize(calcPhenotypes_);
+  var getPhenotype = function getPhenotype(str) {
     return function(arr) {
       return calcPhenotypes(str).map(function(val) {
         return val[arr[0]][arr[1]];
       });
     };
-  }
+  };
   function calculateTaxonLine(str) {
     return {
       identifier: _Maybe2.default.of(getSpecies(str)),
@@ -841,10 +833,9 @@ $__System.registerDynamic("9", ["2", "5", "7"], true, function($__require, expor
       return prev;
     }, {species: []});
   };
-  function checklist(str) {
-    var lines = str.split(/\n/);
-    return processLines(lines);
-  }
+  var checklist = function checklist(str) {
+    return processLines(str.split(/\n/));
+  };
   exports.default = checklist;
   return module.exports;
 });
@@ -7043,21 +7034,21 @@ $__System.registerDynamic("1", ["9", "a", "8"], true, function($__require, expor
     _createClass(Parse, [{
       key: 'toCsv',
       value: function toCsv() {
-        return (0, _csv2.default)(this._buildRows()).split("\n").slice(1).join("\n");
+        return (0, _csv2.default)(this._buildRows()).split('\n').slice(1).join('\n');
       }
     }, {
       key: '_buildRows',
       value: function _buildRows() {
         var list = this.checklist;
-        function calculateTotal(val) {
+        var calculateTotal = function calculateTotal(val) {
           return val.male.total.toInt() + val.female.total.toInt() + val.juvenile.toInt() + val.immature.toInt() + val.adult.toInt() + val.unspecified.toInt();
-        }
-        function matchBandCode(val) {
+        };
+        var matchBandCode = function matchBandCode(val) {
           return _birdbrain2.default[val.join()] ? _birdbrain2.default[val.join()].name : val.join();
-        }
-        function getSpeciesName(val) {
+        };
+        var getSpeciesName = function getSpeciesName(val) {
           return val.isNothing() ? 'bird sp.' : matchBandCode(val);
-        }
+        };
         function assembleComments(val) {
           var phenotypeComments = '';
           phenotypeComments += val.phenotype.female.immature.toInt() ? val.phenotype.female.immature.toInt() + ' immature females |' : '';

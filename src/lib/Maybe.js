@@ -1,31 +1,14 @@
-class Maybe {
+const Maybe_ = x =>
+({
+    map: f => x ? Maybe_(f(x)) : Maybe_(null),
+    isNothing: () => x === null || x === undefined,
+    join: () => x ? x : Maybe_(null),
+    emit: () => x,
+    fold: f => f(x)
+});
 
-    constructor(x) {
-
-        this.__value = x;
-    }
-
-    map(f) {
-
-        return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value));
-    }
-
-    isNothing() {
-
-        return (this.__value === null || this.__value === undefined);
-    }
-
-    join() {
-
-        return this.isNothing() ? Maybe.of(null) : this.__value;
-    }
-
-    emit() {
-
-        return this.__value;
-    }
-}
-
-Maybe.of = x => new Maybe(x);
+const Maybe = {
+    of: x => Maybe_(x)
+};
 
 export {Maybe as default};

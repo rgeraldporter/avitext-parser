@@ -48,7 +48,7 @@
         "comma-style": ["error", "last", {"exceptions": {"ArrayExpression": true,
                                                           "ObjectExpression": true}}],
         "eol-last": ["warn", "unix"],
-        "indent": ["error", 4,{ "SwitchCase": 1 }],
+        "indent": ["error", 4,{ "SwitchCase": 0 }],
         "key-spacing": ["warn", {"beforeColon": false,
                                  "afterColon": true,
                                  "mode": "strict"}],

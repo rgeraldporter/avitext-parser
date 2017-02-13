@@ -14,122 +14,103 @@ const memoize = fn => {
 };
 
 const countNumbers = str => Number(str.replace(/\D/g, '') || 0);
+
 // males
 const countMales = str => countMs(str) === 1 ? countNumbers(str) || 1 : countMs(str);
 const countMs = str => Number((str.match(/m/g) || []).length);
 
-const countAllMales = val => val.reduce((prev, current) => {
-
-    return Number(prev) + countMales(current);
-}, 0);
+const countAllMales = val =>
+    val.reduce(
+        (prev, current) =>
+            Number(prev) + countMales(current),
+    0);
 
 // females
 const countFs = str => Number((str.match(/f/g) || []).length);
 const countFemales = str => countFs(str) === 1 ? countNumbers(str) || 1 : countFs(str);
 
-function countAllFemales(val) {
-
-    return val.reduce((prev, current) => {
-
-        return Number(prev) + countFemales(current);
-    }, 0);
-}
+const countAllFemales = val =>
+    val.reduce(
+        (prev, current) =>
+            Number(prev) + countFemales(current),
+    0);
 
 // juveniles
-function countJs(str) {
+const countJs = str =>
+    Number((str.match(/j/g) || []).length);
 
-    return Number((str.match(/j/g) || []).length);
-}
+const countJuveniles = str =>
+    countJs(str) === 1 && countNonNumeric(str) === 1
+        ? countNumbers(str) || 1
+        : 0;
 
-function countJuveniles(str) {
-
-    return countJs(str) === 1 && countNonNumeric(str) === 1 ? countNumbers(str) || 1 : 0;
-}
-
-function countAllJuveniles(val) {
-
-    return val.reduce((prev, current) => {
-
-        return Number(prev) + countJuveniles(current);
-    }, 0);
-}
+const countAllJuveniles = val =>
+    val.reduce(
+        (prev, current) =>
+            Number(prev) + countJuveniles(current),
+    0);
 
 // immatures
-function countIs(str) {
+const countIs = str =>
+    Number((str.match(/i/g) || []).length);
 
-    return Number((str.match(/i/g) || []).length);
-}
+const countImmatures = str =>
+    countIs(str) === 1 && countNonNumeric(str) === 1
+        ? countNumbers(str) || 1
+        : 0;
 
-function countImmatures(str) {
-
-    return countIs(str) === 1 && countNonNumeric(str) === 1 ? countNumbers(str) || 1 : 0;
-}
-
-function countUnspecifiedImmatures(val) {
-
-    return val.reduce((prev, current) => {
-
-        return Number(prev) + countImmatures(current);
-    }, 0);
-}
+const countUnspecifiedImmatures = val =>
+    val.reduce(
+        (prev, current) =>
+            Number(prev) + countImmatures(current),
+    0);
 
 // adults
-function countAs(str) {
+const countAs = str =>
+    Number((str.match(/a/g) || []).length);
 
-    return Number((str.match(/a/g) || []).length);
-}
+const countAdults = str =>
+    countAs(str) === 1 && countNonNumeric(str) === 1
+        ? countNumbers(str) || 1
+        : 0;
 
-function countAdults(str) {
+const countUnspecifiedAdults = val =>
+    val.reduce(
+        (prev, current) =>
+            Number(prev) + countAdults(current),
+    0);
 
-    return countAs(str) === 1 && countNonNumeric(str) === 1 ? countNumbers(str) || 1 : 0;
-}
 
-function countUnspecifiedAdults(val) {
+// checks/ticks
+const countXs = str =>
+    Number((str.match(/x/g) || []).length);
 
-    return val.reduce((prev, current) => {
+const countChecks = val =>
+    val.reduce(
+        (prev, current) =>
+            countXs(current) === 1
+                ? true
+                : prev,
+    false);
 
-        return Number(prev) + countAdults(current);
-    }, 0);
-}
+// if there are less than 3 non-numeric characters not m,f,a,i,j then it's considered as a comment.
+const countNonNumeric = str =>
+    Number((str.match(/\D/g) || []).length);
 
-// checks
-function countXs(str) {
-
-    return Number((str.match(/x/g) || []).length);
-}
-
-function countChecks(val) {
-
-    return val.reduce((prev, current) => {
-
-        let check = prev;
-
-        countXs(current) === 1 ? check = true : null;
-        return check;
-    }, false);
-}
-
-// if there are less than 3 non-numeric characters not m,f,a,i,j then it's a comment.
-function countNonNumeric(str) {
-
-    return Number((str.match(/\D/g) || []).length);
-}
-
-function countValidCharacters(str) {
-
-    return Number((str.match(/a|i|j|f|m|x/g) || []).length);
-}
+const countValidCharacters = str =>
+    Number((str.match(/a|i|j|f|m|x/g) || []).length);
 
 // unspecifieds
-function countUnspecified(val) {
+const countUnspecified = val =>
+    val.reduce(
+        (prev, current) =>
+            Number(prev) + (
+                /[^$,\.\d]/.test(current)
+                ? 0
+                : countNumbers(current)
+            ),
+    0);
 
-    return val.reduce((prev, current) => {
-
-        return Number(prev) + (/[^$,\.\d]/.test(current) ? 0 : countNumbers(current));
-    }, 0);
-}
-
-// combos
 function countCombo(val) {
 
     return val.reduce((prev, current) => {
@@ -153,36 +134,31 @@ function countCombo(val) {
     });
 }
 
-function implodeString(arr) {
+const implodeString = arr =>
+    arr.length
+        ? arr.join(' ')
+        : [];
 
-    return arr.length ? arr.join(' ') : [];
-}
+const explodeString_ = str =>
+    str
+        ? str.split(' ')
+        : []
 
-function _explodeString(str) {
+const explodeString = memoize(explodeString_);
 
-    return str ? str.split(' ') : [];
-}
+const discardInvalid = arr =>
+    (arr||[]).filter(
+        str =>
+            countValidCharacters(str) === countNonNumeric(str)
+                ? true
+                : false
+    );
 
-const explodeString = memoize(_explodeString);
+const extractQuotes = str =>
+    str.match(/\"(.[\s\S]*?)\"/gm) || [];
 
-function discardInvalid(arr) {
-
-    return (arr||[]).filter(str => {
-
-        return countValidCharacters(str) === countNonNumeric(str) ?
-            true : false;
-    });
-}
-
-function extractQuotes(str) {
-
-    return str.match(/\"(.[\s\S]*?)\"/gm) || [];
-}
-
-function removeQuotes(str) {
-
-    return str.replace(/(['"])((\\\1|.)*?)\1/gm, '');
-}
+const removeQuotes = str =>
+    str.replace(/(['"])((\\\1|.)*?)\1/gm, '');
 
 function removeTaxon(str) {
 
@@ -194,70 +170,55 @@ function removeTaxon(str) {
         str.substring(4);
 }
 
-function convertHardLineBreaks(str) {
+const convertHardLineBreaks = str =>
+    str
+        ? str.replace(/(\r\n|\n|\r)/gm, '; ')
+        : null;
 
-    return str ? str.replace(/(\r\n|\n|\r)/gm, '; ') : null;
-}
+const gatherComments = str =>
+    extractQuotes(str).map(convertHardLineBreaks).map(trimString);
 
-function gatherComments(str) {
+const gatherInvalid = arr =>
+    (arr.slice(1)||[]).reduce(
+        (prev, current) =>
+            countValidCharacters(current) !== countNonNumeric(current)
+                ? prev.concat(current)
+                : prev,
+    []);
 
-    return extractQuotes(str).map(convertHardLineBreaks).map(trimString);
-}
+const getBand4Code = str =>
+    str.substring(0, 4);
 
-function gatherInvalid(arr) {
+const trimString = str =>
+    str
+        ? str.substring(1, str.length - 1)
+        : null;
 
-    return (arr.slice(1)||[]).reduce((prev, current) => {
+const getEmptyTaxon = str =>
+    str.substring(0, 2) === '[]'
+        ? ['[passerine sp.]']
+        : false;
 
-        if (countValidCharacters(current) !== countNonNumeric(current))
-            prev.push(current);
+const getCustomTaxon = str =>
+    getEmptyTaxon(str) || str.match(/\[([^)]+)\]/g) || [];
 
-        return prev;
-    }, []);
-}
-
-function getBand4Code(str) {
-
-    return str.substring(0, 4);
-}
-
-function trimString(str) {
-
-    return str ? str.substring(1, str.length - 1) : null;
-}
-
-function getEmptyTaxon(str) {
-
-    return str.substring(0, 2) === '[]' ? ['[passerine sp.]'] : false;
-}
-
-function getCustomTaxon(str) {
-
-    return getEmptyTaxon(str) || str.match(/\[([^)]+)\]/g) || [];
-}
-
-function getSpecies(str) {
-
-    return getCustomTaxon(str).length ? trimString(getCustomTaxon(str)[0]) : getBand4Code(str);
-}
+const getSpecies = str =>
+    getCustomTaxon(str).length
+        ? trimString(getCustomTaxon(str)[0])
+        : getBand4Code(str);
 
 const breakOutInvalid = fjs.compose(implodeString, gatherInvalid, explodeString, removeQuotes, removeTaxon);
-const _breakOutSpecies = fjs.compose(discardInvalid, explodeString, removeQuotes, removeTaxon);
-const breakOutSpecies = memoize(_breakOutSpecies);
+const breakOutSpecies_ = fjs.compose(discardInvalid, explodeString, removeQuotes, removeTaxon);
+const breakOutSpecies = memoize(breakOutSpecies_);
 
-function _calcPhenotypes(str) {
+const calcPhenotypes_ = str =>
+    Count.of(breakOutSpecies(str)).map(countCombo)
 
-    return Count.of(breakOutSpecies(str)).map(countCombo);
-}
+const calcPhenotypes = memoize(calcPhenotypes_);
 
-const calcPhenotypes = memoize(_calcPhenotypes);
-
-function getPhenotype(str) {
-
-    return arr => {
-
-        return calcPhenotypes(str).map(val => val[ arr[0] ][ arr[1] ]);
-    }
-}
+const getPhenotype = str =>
+    arr =>
+        calcPhenotypes(str).map(val => val[ arr[0] ][ arr[1] ]);
 
 function calculateTaxonLine(str) {
 

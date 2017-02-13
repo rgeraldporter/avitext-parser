@@ -86,7 +86,8 @@ function minify( cb ) {
         .pipe( jspm({
 
             selfExecutingBundle:    true,
-            minify:                 true
+            minify:                 true,
+            format:                 'global'
         }) )
         .pipe( rename( 'avitext-parse.min.js' ) )
         .pipe( sourcemaps.write('./') )
@@ -104,7 +105,8 @@ function bundle( cb ) {
 
             selfExecutingBundle:    true,
             minify:                 false,
-            inject:                 true
+            inject:                 true,
+            format:                 'global'
         }) )
         .pipe( rename( 'avitext-parse.js' ) )
         .pipe( sourcemaps.write('./') )

@@ -16,7 +16,6 @@ var _Maybe2 = _interopRequireDefault(_Maybe);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var memoize = function memoize(fn) {
-
     var cache = {};
     return function () {
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -29,41 +28,42 @@ var memoize = function memoize(fn) {
     };
 };
 
-function convertToSlash(str) {
-
+var convertToSlash = function convertToSlash(str) {
     return str.replace(/-/g, '/');
-}
+};
 
-function appendYear(str) {
+var appendYear = function appendYear(str) {
+    return str.length === 8 ? str.slice(0, -3) + '-20' + str.slice(-2) : str + '-' + new Date().getFullYear();
+};
 
-    if (str.length > 8) return str;
+var shouldAppendYear = function shouldAppendYear(str) {
+    return str.length > 8 ? str : appendYear(str);
+};
 
-    if (str.length === 8) return str.slice(0, -3) + '-20' + str.slice(-2); // only valid until the year 2100 #Y2.1KProblems
+var leadingZero = function leadingZero(str) {
+    return str.startsWith('.') ? '0' + str : str;
+};
 
-    return str + '-' + new Date().getFullYear();
-}
+var convertKmToMiles = function convertKmToMiles(str) {
+    return str.search(/km/i) !== -1 ? (Number(str.slice(0, -2)) * 0.6214).toFixed(2) : str;
+};
 
-function parseDistance(str) {
+var convertKToMiles = function convertKToMiles(str) {
+    return str.search(/k/i) !== -1 ? (Number(str.slice(0, -1)) * 0.6214).toFixed(2) : str;
+};
 
-    // convert .5 => 0.5
-    if (str.startsWith('.')) str = '0' + str;
-
-    if (str.search(/km/i) !== -1) return (Number(str.slice(0, -2)) * 0.6214).toFixed(2);
-
-    if (str.search(/k/i) !== -1) return (Number(str.slice(0, -1)) * 0.6214).toFixed(2);
-
+var strOrNull = function strOrNull(str) {
     return str && str !== '' ? str : null;
-}
+};
 
-var parseDate = _functional2.default.compose(convertToSlash, appendYear);
+var parseDistance = _functional2.default.compose(strOrNull, convertKToMiles, convertKmToMiles, leadingZero);
+var parseDate = _functional2.default.compose(convertToSlash, shouldAppendYear);
 var explodeString = memoize(function (str) {
     return str ? str.split(' ') : [];
 });
 
 var parseEffortLine = function parseEffortLine(str) {
-
     return {
-
         date: _Maybe2.default.of(parseDate(explodeString(str)[0])),
         time: _Maybe2.default.of(explodeString(str)[1]),
         duration: _Maybe2.default.of(explodeString(str)[2] || null),
@@ -71,7 +71,6 @@ var parseEffortLine = function parseEffortLine(str) {
         observers: _Maybe2.default.of(1),
         comments: _Maybe2.default.of(''),
         get protocol() {
-
             if (this.duration.isNothing()) return _Maybe2.default.of('Casual');
 
             if (this.distance.isNothing()) return _Maybe2.default.of('Stationary');
@@ -79,7 +78,6 @@ var parseEffortLine = function parseEffortLine(str) {
             return _Maybe2.default.of('Traveling');
         },
         get complete() {
-
             return _Maybe2.default.of(this.protocol.join() !== 'Casual');
         }
     };

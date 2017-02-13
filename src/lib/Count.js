@@ -1,31 +1,15 @@
-class Count {
+const Count_ = x =>
+({
+    map: f => x ? Count_(f(x)) : Count_(null),
+    isNothing: () => x === null || x === undefined,
+    join: () => x ? x : Count_(null),
+    toInt: () => x ? parseInt(x) : 0,
+    emit: () => x,
+    fold: f => f(x)
+});
 
-    constructor(x) {
-
-        this.__value = x;
-    }
-
-    map(f) {
-
-        return this.isNothing() ? Count.of(null) : Count.of(f(this.__value));
-    }
-
-    isNothing() {
-
-        return (this.__value === null || this.__value === undefined);
-    }
-
-    join() {
-
-        return this.isNothing() ? Count.of(null) : this.__value;
-    }
-
-    toInt() {
-
-        return this.isNothing() ? 0 : parseInt(this.__value);
-    }
-}
-
-Count.of = x => new Count(x);
+const Count = {
+    of: x => Count_(x)
+};
 
 export {Count as default};

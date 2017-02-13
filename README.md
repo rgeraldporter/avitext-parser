@@ -1,5 +1,5 @@
 # avitext-parser
-####v0.3.3
+####v0.3.4
 
 A module for parsing [avitext](https://github.com/rgeraldporter/avitext-spec) files.
 

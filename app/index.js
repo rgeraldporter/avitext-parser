@@ -34,31 +34,26 @@ var Parse = function () {
     _createClass(Parse, [{
         key: 'toCsv',
         value: function toCsv() {
-            return (0, _csv2.default)(this._buildRows()).split("\n").slice(1).join("\n");
+            return (0, _csv2.default)(this._buildRows()).split('\n').slice(1).join('\n');
         }
     }, {
         key: '_buildRows',
         value: function _buildRows() {
-
             var list = this.checklist;
 
-            function calculateTotal(val) {
-
+            var calculateTotal = function calculateTotal(val) {
                 return val.male.total.toInt() + val.female.total.toInt() + val.juvenile.toInt() + val.immature.toInt() + val.adult.toInt() + val.unspecified.toInt();
-            }
+            };
 
-            function matchBandCode(val) {
-
+            var matchBandCode = function matchBandCode(val) {
                 return _birdbrain2.default[val.join()] ? _birdbrain2.default[val.join()].name : val.join();
-            }
+            };
 
-            function getSpeciesName(val) {
-
+            var getSpeciesName = function getSpeciesName(val) {
                 return val.isNothing() ? 'bird sp.' : matchBandCode(val);
-            }
+            };
 
             function assembleComments(val) {
-
                 var phenotypeComments = '';
 
                 phenotypeComments += val.phenotype.female.immature.toInt() ? val.phenotype.female.immature.toInt() + ' immature females |' : '';
@@ -83,15 +78,14 @@ var Parse = function () {
             }
 
             return list.species.reduce(function (prev, current) {
-
                 var row = {
-
                     'Common Name': getSpeciesName(current.identifier),
                     'Genus': '',
                     'Species': '',
                     'Number': calculateTotal(current.phenotype),
                     'Species Comments': assembleComments(current),
-                    'Location Name': list.location.emit(), // technically mutable......
+                    'Location Name': list.location.emit(),
+                    // technically mutable......
                     // for these mutables we should set them as consts that get obj merged instead
                     'Latitude': '',
                     'Longitude': '',

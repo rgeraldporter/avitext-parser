@@ -17,8 +17,8 @@ HAWO 5m f`;
         let mylist = checklist(text);
 
         expect(mylist.species.length).toBe(6);
-        expect(mylist.location.__value).toBe('Cootes Paradise');
-        expect(mylist.province.__value).toBe('ON');
+        mylist.location.fold( x => expect(x).toBe('Cootes Paradise') );
+        mylist.province.fold( x => expect(x).toBe('ON'));
     });
 
     it('should handle not having a location code', () => {
@@ -35,7 +35,7 @@ HAWO 5m f`;
         let mylist = checklist(text);
 
         expect(mylist.species.length).toBe(6);
-        expect(mylist.location.__value).toBe('Cootes Paradise');
+        mylist.location.fold(x => expect(x).toBe('Cootes Paradise'));
     });
 
     it('should handle a having no duration or distance', () => {
@@ -52,8 +52,8 @@ HAWO 5m f`;
         let mylist = checklist(text);
 
         expect(mylist.species.length).toBe(6);
-        expect(mylist.location.__value).toBe('Cootes Paradise');
-        expect(mylist.province.__value).toBe('ON');
+        mylist.location.fold( x => expect(x).toBe('Cootes Paradise'));
+        mylist.province.fold( x => expect(x).toBe('ON'));
     });
 
     it('should handle a blank line', () => {
@@ -71,7 +71,7 @@ HAWO 5m f`;
         let mylist = checklist(text);
 
         expect(mylist.species.length).toBe(6);
-        expect(mylist.location.__value).toBe('Cootes Paradise');
-        expect(mylist.province.__value).toBe('ON');
+        mylist.location.fold( x => expect(x).toBe('Cootes Paradise'));
+        mylist.province.fold( x => expect(x).toBe('ON'));
     });
 });
