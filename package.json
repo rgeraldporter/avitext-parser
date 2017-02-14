@@ -1,7 +1,7 @@
 {
   "name": "avitext-parser",
   "preferGlobal": false,
-  "version": "0.3.4",
+  "version": "1.0.0",
   "author": "Robert Gerald Porter <rob@inpictures.ca>",
   "description": "Parser for Avitext files.",
   "main": "./app/index.js",
@@ -23,7 +23,8 @@
     "gulp-shell": "^0.5.2",
     "gulp-sourcemaps": "^1.6.0",
     "jspm": "0.16.34",
-    "run-sequence": "^1.1.5"
+    "run-sequence": "^1.1.5",
+    "gulp-jspm-build": "^0.0.15"
   },
   "jspm": {
     "directories": {
@@ -59,8 +60,5 @@
   "homepage": "https://github.com/rgeraldporter/avitext-parser#readme",
   "directories": {
     "doc": "doc"
-  },
-  "dependencies": {
-    "gulp-jspm-build": "^0.0.15"
   }
 }
