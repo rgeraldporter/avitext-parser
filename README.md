@@ -1,5 +1,5 @@
 # avitext-parser
-####1.0.2
+### v1.0.3
 
 A module for parsing [avitext](https://github.com/rgeraldporter/avitext-spec) files.
 
@@ -45,7 +45,7 @@ var myParsedChecklist = new Parse(text);
 
 This will return a checklist object. The object makes heavy use of immutable monads.
 
-##License
+## License
 
 The MIT License (MIT)
 

@@ -3,6 +3,7 @@ import toCsv from './lib/csv';
 import birdBrain from './lib/birdbrain';
 
 class Parse {
+
     constructor(text) {
         this.source = text;
         this.checklist = checklist(text);
